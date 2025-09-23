@@ -1,12 +1,12 @@
-# CS598JBR-Team-0
+# CS598JBR-Team-25
 
 ## Group members
-- [Team member1], [NetID]
-- [Team member2], [NetID]
-- [Yihang Jiao], [yihangj3]
-- [Team member4], [NetID]
+- Chih-Fu Lai, chihful2
+- Heyang Li, heyangl4
+- Jinsong Yuan, jinsong3
+- Yihang Jiao, yihangj3
 
 ## Link of Google Colab Notebook
-- MP1 - [link](URL) ( https://colab.research.google.com/drive/1t-d6AL-alJ5accoeCVUS9A4YbfaPTn0S#scrollTo=ROuYDYZTLNj_ )
+- MP1 - [link](URL) ( https://colab.research.google.com/drive/1t-d6AL-alJ5accoeCVUS9A4YbfaPTn0S?usp=sharing )
 - MP2 - [link](URL) (please add the link here)
 - MP3 - [link](URL) (please add the link here)
