@@ -3,7 +3,7 @@
 ## Group members
 - [Team member1], [NetID]
 - [Team member2], [NetID]
-- [Team member3], [NetID]
+- [Yihang Jiao], [yihangj3]
 - [Team member4], [NetID]
 
 ## Link of Google Colab Notebook
