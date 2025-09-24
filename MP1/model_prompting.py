@@ -69,6 +69,9 @@ def prompt_model(dataset, model_name = "deepseek-ai/deepseek-coder-6.7b-base", q
         candidate = filter_response(prompt, response)
         if candidate:
             response = candidate
+            print(f"FUNCTION:\n{response}\n")
+        else:
+            print("ERROR: cannot find the function, use the original response.")
 
         response_processed = response.strip()
         results_processed.append(dict(task_id=case["task_id"], completion=response_processed))
