@@ -27,8 +27,7 @@ def filter_response(prompt, response):
     """
     # find the first function in prompt using regex
     import re
-    match = re.search(r'def\s+\w+\s*\(.*?\)\s*(->\s*\w+)?\s*:'
-, prompt)
+    match = re.search(r'def\s+\w+\s*\(.*?\)\s*(->\s*.+?)?\s*:', prompt)
     if not match:
         return None
 
@@ -55,6 +54,8 @@ def get_completion(prompt, response):
                 lines.pop(0)
             if lines:
                 lines.pop(0)  # remove the ending docstring line
-        
+        while lines and lines[0].strip().startswith("#"):
+            lines.pop(0)
+
         return "\n".join(lines)
     return None
