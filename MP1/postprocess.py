@@ -2,7 +2,7 @@ def split_multiple_functions(response):
     """
     Splits the response into multiple functions if there are multiple functions defined.
     """
-    functions = response.split("\n\n")
+    functions = response.split("\n\n\n")
     return [func.strip() for func in functions if func.strip().startswith("def ")]
 
 def filter_response(prompt, response):
