@@ -1,9 +1,25 @@
-def split_multiple_functions(response):
-    """
-    Splits the response into multiple functions if there are multiple functions defined.
-    """
-    functions = response.split("\n\n\n")
-    return [func.strip() for func in functions if func.strip().startswith("def ")]
+import re
+
+def split_multiple_functions(code):
+    triple_string_pattern = r'("""[\s\S]*?"""|\'\'\'[\s\S]*?\'\'\')'
+    placeholders = {}
+    
+    def replacer(match):
+        key = f"__PLACEHOLDER_{len(placeholders)}__"
+        placeholders[key] = match.group(0)
+        return key
+
+    protected_code = re.sub(triple_string_pattern, replacer, code)
+    raw_blocks = protected_code.split("\n\n\n")
+
+    restored_blocks = [
+        re.sub("|".join(map(re.escape, placeholders.keys())),
+               lambda m: placeholders[m.group(0)],
+               block)
+        for block in raw_blocks
+    ]
+
+    return [b.strip() for b in restored_blocks if b.strip()]
 
 def filter_response(prompt, response):
     """
