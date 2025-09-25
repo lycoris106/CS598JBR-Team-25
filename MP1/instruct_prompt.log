@@ -1,0 +1,1209 @@
+2025-09-25 12:50:56.592532: I tensorflow/core/util/port.cc:153] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+2025-09-25 12:50:56.609162: E external/local_xla/xla/stream_executor/cuda/cuda_fft.cc:467] Unable to register cuFFT factory: Attempting to register factory for plugin cuFFT when one has already been registered
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+E0000 00:00:1758804656.630927   14648 cuda_dnn.cc:8579] Unable to register cuDNN factory: Attempting to register factory for plugin cuDNN when one has already been registered
+E0000 00:00:1758804656.637563   14648 cuda_blas.cc:1407] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+W0000 00:00:1758804656.654268   14648 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+W0000 00:00:1758804656.654303   14648 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+W0000 00:00:1758804656.654306   14648 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+W0000 00:00:1758804656.654307   14648 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+2025-09-25 12:50:56.659366: I tensorflow/core/platform/cpu_feature_guard.cc:210] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 AVX512F AVX512_VNNI FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+Working with deepseek-ai/deepseek-coder-6.7b-instruct quantization True...
+Fetching 2 files:   0%|          | 0/2 [00:00<?, ?it/s]Fetching 2 files:  50%|█████     | 1/2 [01:11<01:11, 71.49s/it]Fetching 2 files: 100%|██████████| 2/2 [01:11<00:00, 35.74s/it]
+Loading checkpoint shards:   0%|          | 0/2 [00:00<?, ?it/s]Loading checkpoint shards:  50%|█████     | 1/2 [00:12<00:12, 12.04s/it]Loading checkpoint shards: 100%|██████████| 2/2 [00:16<00:00,  7.31s/it]Loading checkpoint shards: 100%|██████████| 2/2 [00:16<00:00,  8.02s/it]
+Setting `pad_token_id` to `eos_token_id`:32021 for open-end generation.
+Setting `pad_token_id` to `eos_token_id`:32021 for open-end generation.
+Setting `pad_token_id` to `eos_token_id`:32021 for open-end generation.
+Setting `pad_token_id` to `eos_token_id`:32021 for open-end generation.
+Setting `pad_token_id` to `eos_token_id`:32021 for open-end generation.
+Task_ID HumanEval/96:
+Prompt:
+
+def count_up_to(n):
+    """Implement a function that takes an non-negative integer and returns an array of the first n
+    integers that are prime numbers and less than n.
+    for example:
+    count_up_to(5) => [2,3]
+    count_up_to(11) => [2,3,5,7]
+    count_up_to(0) => []
+    count_up_to(20) => [2,3,5,7,11,13,17,19]
+    count_up_to(1) => []
+    count_up_to(18) => [2,3,5,7,11,13,17]
+    """
+
+Response:
+
+def count_up_to(n):
+    """Implement a function that takes an non-negative integer and returns an array of the first n
+    integers that are prime numbers and less than n.
+    for example:
+    count_up_to(5) => [2,3]
+    count_up_to(11) => [2,3,5,7]
+    count_up_to(0) => []
+    count_up_to(20) => [2,3,5,7,11,13,17,19]
+    count_up_to(1) => []
+    count_up_to(18) => [2,3,5,7,11,13,17]
+    """
+    def is_prime(num):
+        if num < 2:
+            return False
+        for i in range(2, int(num**0.5) + 1):
+            if num % i == 0:
+                return False
+        return True
+
+    primes = [i for i in range(2, n) if is_prime(i)]
+    return primes
+
+
+print(count_up_to(5))
+print(count_up_to(11))
+print(count_up_to(0))
+print(count_up_to(20))
+print(count_up_to(1))
+print(count_up_to(18))
+
+# 2,3,5,7,11,13,17,19
+# 2,3,5,7,11,13,17
+# []
+# 2,3,5,7,11,13,17,19
+# []
+# 2,3,5,7,11,13,17
+# 2,3,5,7,11,13,17,19
+# 2,3,5,7,11,13,17,19
+# 2,3,5,7,11,13,17,19
+# 2,3,5,7
+Task_ID HumanEval/117:
+Prompt:
+
+def select_words(s, n):
+    """Given a string s and a natural number n, you have been tasked to implement 
+    a function that returns a list of all words from string s that contain exactly 
+    n consonants, in order these words appear in the string s.
+    If the string s is empty then the function should return an empty list.
+    Note: you may assume the input string contains only letters and spaces.
+    Examples:
+    select_words("Mary had a little lamb", 4) ==> ["little"]
+    select_words("Mary had a little lamb", 3) ==> ["Mary", "lamb"]
+    select_words("simple white space", 2) ==> []
+    select_words("Hello world", 4) ==> ["world"]
+    select_words("Uncle sam", 3) ==> ["Uncle"]
+    """
+
+Response:
+
+def select_words(s, n):
+    """Given a string s and a natural number n, you have been tasked to implement 
+    a function that returns a list of all words from string s that contain exactly 
+    n consonants, in order these words appear in the string s.
+    If the string s is empty then the function should return an empty list.
+    Note: you may assume the input string contains only letters and spaces.
+    Examples:
+    select_words("Mary had a little lamb", 4) ==> ["little"]
+    select_words("Mary had a little lamb", 3) ==> ["Mary", "lamb"]
+    select_words("simple white space", 2) ==> []
+    select_words("Hello world", 4) ==> ["world"]
+    select_words("Uncle sam", 3) ==> ["Uncle"]
+    """
+    vowels = "aeiou"
+    words = s.split()
+    result = []
+    for word in words:
+        consonants = 0
+        for letter in word:
+            if letter.lower() not in vowels:
+                consonants += 1
+        if consonants == n:
+            result.append(word)
+    return result
+
+
+print(select_words("Mary had a little lamb", 4))  # ["little"]
+print(select_words("Mary had a little lamb", 3))  # ["Mary", "lamb"]
+print(select("simple white space", 2))  # []
+print(select_words("Hello world", 4))  # ["world"]
+print(select_words("Uncle sam", 3))  # ["Uncle"]
+
+# The function select_words is supposed to return a list of words from the string s that contain exactly n consonants.
+# However, the function is not working as expected. The function is supposed to return the words "little" and "lamb" for the input "Mary had a little lamb" and 4 consonants, but it is returning an empty list.
+# The function is supposed to return the words "Mary" and "lamb" for the input "Mary had a little lamb" and 
+Task_ID HumanEval/85:
+Prompt:
+
+def add(lst):
+    """Given a non-empty list of integers lst. add the even elements that are at odd indices..
+
+
+    Examples:
+        add([4, 2, 6, 7]) ==> 2 
+    """
+
+Response:
+
+def add(lst):
+    """Given a non-empty list of integers lst. add the even elements that are at odd indices..
+
+
+    Examples:
+        add([4, 2, 6, 7]) ==> 2 
+    """
+    return sum(lst[i] for i in range(1, len(lst), 2) if lst[i] % 2 == 0)
+
+
+print(add([4, 2, 6, 7]))  # 2
+print(add([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]))  # 14
+print(add([10, 20, 30, 40, 50]))  # 60
+print(add([100, 200, 300, 400, 500]))  # 600
+print(add([1000, 2000, 3000, 4000, 5000]))  # 6000
+print(add([10000, 20000, 30000, 40000, 50000]))  # 60000
+print(add([100000, 200000, 300000, 400000, 500000]))  # 600000
+print(add([1000000, 2000000, 3000000, 4000000, 5000000]))  # 6000000
+print(add([10000000, 20000000, 30000000, 40000000, 50000000]))  # 60000000
+print(add([1000000
+Task_ID HumanEval/148:
+Prompt:
+
+def bf(planet1, planet2):
+    '''
+    There are eight planets in our solar system: the closerst to the Sun 
+    is Mercury, the next one is Venus, then Earth, Mars, Jupiter, Saturn, 
+    Uranus, Neptune.
+    Write a function that takes two planet names as strings planet1 and planet2. 
+    The function should return a tuple containing all planets whose orbits are 
+    located between the orbit of planet1 and the orbit of planet2, sorted by 
+    the proximity to the sun. 
+    The function should return an empty tuple if planet1 or planet2
+    are not correct planet names. 
+    Examples
+    bf("Jupiter", "Neptune") ==> ("Saturn", "Uranus")
+    bf("Earth", "Mercury") ==> ("Venus")
+    bf("Mercury", "Uranus") ==> ("Venus", "Earth", "Mars", "Jupiter", "Saturn")
+    '''
+
+Response:
+
+def bf(planet1, planet2):
+    '''
+    There are eight planets in our solar system: the closerst to the Sun 
+    is Mercury, the next one is Venus, then Earth, Mars, Jupiter, Saturn, 
+    Uranus, Neptune.
+    Write a function that takes two planet names as strings planet1 and planet2. 
+    The function should return a tuple containing all planets whose orbits are 
+    located between the orbit of planet1 and the orbit of planet2, sorted by 
+    the proximity to the sun. 
+    The function should return an empty tuple if planet1 or planet2
+    are not correct planet names. 
+    Examples
+    bf("Jupiter", "Neptune") ==> ("Saturn", "Uranus")
+    bf("Earth", "Mercury") ==> ("Venus")
+    bf("Mercury", "Uranus") ==> ("Venus", "Earth", "Mars", "Jupiter", "Saturn")
+    '''
+    planets = ['Mercury', 'Venus', 'Earth', 'Mars', 'Jupiter', 'Saturn', 'Uranus', 'Neptune']
+    if planet1 not in planets or planet2 not in planets:
+        return ()
+    else:
+        start = planets.index(planet1)
+        end = planets.index(planet2)
+        if start > end:
+            start, end = end, start
+        return tuple(planets[start+1:end])
+
+print(bf("Jupiter", "Neptune"))
+print(bf("Earth", "Mercury"))
+print(bf("Mercury", "Uranus"))
+print(bf("Pluto", "Neptune"))
+print(bf("Jupiter", "Pluto"))
+print(bf("Jupiter", "Earth"))
+
+# Output:
+# ('Saturn', 'Uranus')
+# ('Venus', 'Earth')
+# ('Venus', 'Earth', 'Mars', 'Jupiter', 'Saturn')
+# ()
+# ()
+# ('Earth', 'Mars', 'J
+Task_ID HumanEval/64:
+Prompt:
+
+FIX = """
+Add more test cases.
+"""
+
+def vowels_count(s):
+    """Write a function vowels_count which takes a string representing
+    a word as input and returns the number of vowels in the string.
+    Vowels in this case are 'a', 'e', 'i', 'o', 'u'. Here, 'y' is also a
+    vowel, but only when it is at the end of the given word.
+
+    Example:
+    >>> vowels_count("abcde")
+    2
+    >>> vowels_count("ACEDY")
+    3
+    """
+
+Response:
+
+FIX = """
+Add more test cases.
+"""
+
+def vowels_count(s):
+    """Write a function vowels_count which takes a string representing
+    a word as input and returns the number of vowels in the string.
+    Vowels in this case are 'a', 'e', 'i', 'o', 'u'. Here, 'y' is also a
+    vowel, but only when it is at the end of the given word.
+
+    Example:
+    >>> vowels_count("abcde")
+    2
+    >>> vowels_count("ACEDY")
+    3
+    """
+    vowels = "aeiou"
+    count = 0
+    for letter in s:
+        if letter.lower() in vowels:
+            count += 1
+    if s[-1] == "y":
+        count += 1
+    return count
+
+
+def test_vowels_count():
+    assert vowels_count("abcde") == 2
+    assert vowels_count("ACEDY") == 3
+    assert vowelscount("a") == 1
+    assert vowels_count("") == 0
+    assert vowels_count("Y") == 1
+    assert vowels_count("y") == 1
+    assert vowels_count("YoLo") == 2
+    assert vowels_count("AaAaAaAaAaAaAaAaAaAaAaAaAaAaAaAaAaAaAaAaAaAaAaAaAaAaAaAaAaAaAaAaAaAaAaAaAaAaAaAaAaAaAaAaAaAaAaAaAaAaAaAaAaAaAaAaAaAaAaAaAaAaAaAaAaAaAaAaAaAaAaAaAaAaAaAaAaAaAaAaAaAaAaAaAaAaAaAaAaAaAaAaAaAaAaAaSetting `pad_token_id` to `eos_token_id`:32021 for open-end generation.
+Setting `pad_token_id` to `eos_token_id`:32021 for open-end generation.
+Setting `pad_token_id` to `eos_token_id`:32021 for open-end generation.
+Setting `pad_token_id` to `eos_token_id`:32021 for open-end generation.
+Setting `pad_token_id` to `eos_token_id`:32021 for open-end generation.
+
+Task_ID HumanEval/149:
+Prompt:
+
+def sorted_list_sum(lst):
+    """Write a function that accepts a list of strings as a parameter,
+    deletes the strings that have odd lengths from it,
+    and returns the resulted list with a sorted order,
+    The list is always a list of strings and never an array of numbers,
+    and it may contain duplicates.
+    The order of the list should be ascending by length of each word, and you
+    should return the list sorted by that rule.
+    If two words have the same length, sort the list alphabetically.
+    The function should return a list of strings in sorted order.
+    You may assume that all words will have the same length.
+    For example:
+    assert list_sort(["aa", "a", "aaa"]) => ["aa"]
+    assert list_sort(["ab", "a", "aaa", "cd"]) => ["ab", "cd"]
+    """
+
+Response:
+
+def sorted_list_sum(lst):
+    """Write a function that accepts a list of strings as a parameter,
+    deletes the strings that have odd lengths from it,
+    and returns the resulted list with a sorted order,
+    The list is always a list of strings and never an array of numbers,
+    and it may contain duplicates.
+    The order of the list should be ascending by length of each word, and you
+    should return the list sorted by that rule.
+    If two words have the same length, sort the list alphabetically.
+    The function should return a list of strings in sorted order.
+    You may assume that all words will have the same length.
+    For example:
+    assert list_sort(["aa", "a", "aaa"]) => ["aa"]
+    assert list_sort(["ab", "a", "aaa", "cd"]) => ["ab", "cd"]
+    """
+    lst = [i for i in lst if len(i) % 2 == 0]
+    return sorted(lst)
+
+
+print(sorted_list_sum(["ab", "a", "aaa", "cd"]))
+print(sorted_listum(["aa", "a", "aaa"]))
+
+# 1. Filter out the strings with odd lengths.
+# 2. Sort the list by length of each word.
+# 3. If two words have the same length, sort the list alphabetically.
+# 4. Return the sorted list.
+
+# def sorted_list_sum(lst):
+#     lst = [i for i in lst if len(i) % 2 == 0]
+#     return sorted(lst)
+
+# print(sorted_list_sum(["ab", "a", "aaa", "cd"]))
+# print(sorted_list_sum(["aa", "a", "aaa"]))
+
+# def sorted_list_sum(lst):
+#     lst = [i for i in lst if len(i) % 2 == 0]
+#     return sorted(lst)
+
+# print(sorted_list_sum(
+Task_ID HumanEval/13:
+Prompt:
+
+
+def greatest_common_divisor(a: int, b: int) -> int:
+    """ Return a greatest common divisor of two integers a and b
+    >>> greatest_common_divisor(3, 5)
+    1
+    >>> greatest_common_divisor(25, 15)
+    5
+    """
+
+Response:
+
+
+def greatest_common_divisor(a: int, b: int) -> int:
+    """ Return a greatest common divisor of two integers a and b
+    >>> greatest_common_divisor(3, 5)
+    1
+    >>> greatest_common_divisor(25, 15)
+    5
+    """
+    while a != b:
+        if a > b:
+            a = a - b
+        else:
+            b = b - a
+    return a
+
+
+def least_common_multiple(a: int, b: int) - int:
+    """ Return a least common multiple of two integers a and b
+    >>> least_common_multiple(3, 5)
+    15
+    >>> least_common_multiple(25, 15)
+    75
+    """
+    return a * b // greatest_common_divisor(a, b)
+
+
+def test_solution():
+    assert greatest_common_divisor(3, 5) == 1
+    assert greatest_common_divisor(25, 15) == 5
+    assert least_common_multiple(3, 5) == 15
+    assert least_common_multiple(25, 15) == 75
+
+
+if __name__ == "__main__":
+    test_solution()
+    print("All tests passed")
+
+#python/euler/problem_005.py
+from utils import greatest_common_divisor, least_common_multiple
+
+
+def smallest_multiple(n: int) -> int:
+    """
+    Return the smallest positive number that is evenly divisible by all of the numbers from 1 to n.
+    >>> smallest_multiple(10)
+    2520
+    """
+    result = 1
+    for i in range(1, n + 1):
+        result = least_common_multiple(result, i)
+    return result
+
+
+def test_solution():
+    assert smallest_multiple(10) == 2520
+
+
+if __name__ == "__main__":
+   
+Task_ID HumanEval/95:
+Prompt:
+
+def check_dict_case(dict):
+    """
+    Given a dictionary, return True if all keys are strings in lower 
+    case or all keys are strings in upper case, else return False.
+    The function should return False is the given dictionary is empty.
+    Examples:
+    check_dict_case({"a":"apple", "b":"banana"}) should return True.
+    check_dict_case({"a":"apple", "A":"banana", "B":"banana"}) should return False.
+    check_dict_case({"a":"apple", 8:"banana", "a":"apple"}) should return False.
+    check_dict_case({"Name":"John", "Age":"36", "City":"Houston"}) should return False.
+    check_dict_case({"STATE":"NC", "ZIP":"12345" }) should return True.
+    """
+
+Response:
+
+def check_dict_case(dict):
+    """
+    Given a dictionary, return True if all keys are strings in lower 
+    case or all keys are strings in upper case, else return False.
+    The function should return False is the given dictionary is empty.
+    Examples:
+    check_dict_case({"a":"apple", "b":"banana"}) should return True.
+    check_dict_case({"a":"apple", "A":"banana", "B":"banana"}) should return False.
+    check_dict_case({"a":"apple", 8:"banana", "a":"apple"}) should return False.
+    check_dict_case({"Name":"John", "Age":"36", "City":"Houston"}) should return False.
+    check_dict_case({"STATE":"NC", "ZIP":"12345" }) should return True.
+    """
+    if not dict:
+        return False
+    lower_case = [k.islower() for k in dict.keys()]
+    upper_case = [k.isupper() for k in dict.keys()]
+    return all(lower_case) or all(upper_case)
+
+# Test cases
+print(check_dict_case({"a":"apple", "b":"banana"})) # True
+print(check_dict_case({"a":"apple", "A":"banana", "B":"banana"})) # False
+print(check_dict_case({"a":"apple", 8:"banana", "a":"apple"})) # False
+print(check_dict_case({"Name":"John", "Age":"36", "City":"Houston"})) # False
+print(check_dict_case({"STATE":"NC", "ZIP":"12345" })) # True
+print(check_dict_case({})) # False
+
+# Note: The function is case sensitive. It will return False if the dictionary has keys that are in different cases.
+# For example, {"Name":"John", "name":"John"} will return False.
+# The function is also not designed to handle dictionaries with non-string keys.
+# For
+Task_ID HumanEval/126:
+Prompt:
+
+def is_sorted(lst):
+    '''
+    Given a list of numbers, return whether or not they are sorted
+    in ascending order. If list has more than 1 duplicate of the same
+    number, return False. Assume no negative numbers and only integers.
+
+    Examples
+    is_sorted([5]) ➞ True
+    is_sorted([1, 2, 3, 4, 5]) ➞ True
+    is_sorted([1, 3, 2, 4, 5]) ➞ False
+    is_sorted([1, 2, 3, 4, 5, 6]) ➞ True
+    is_sorted([1, 2, 3, 4, 5, 6, 7]) ➞ True
+    is_sorted([1, 3, 2, 4, 5, 6, 7]) ➞ False
+    is_sorted([1, 2, 2, 3, 3, 4]) ➞ True
+    is_sorted([1, 2, 2, 2, 3, 4]) ➞ False
+    '''
+
+Response:
+
+def is_sorted(lst):
+    '''
+    Given a list of numbers, return whether or not they are sorted
+    in ascending order. If list has more than 1 duplicate of the same
+    number, return False. Assume no negative numbers and only integers.
+
+    Examples
+    is_sorted([5]) ➞ True
+    is_sorted([1, 2, 3, 4, 5]) ➞ True
+    is_sorted([1, 3, 2, 4, 5]) ➞ False
+    is_sorted([1, 2, 3, 4, 5, 6]) ➞ True
+    is_sorted([1, 2, 3, 4, 5, 6, 7]) ➞ True
+    is_sorted([1, 3, 2, 4, 5, 6, 7]) ➞ False
+    is_sorted([1, 2, 2, 3, 3, 4]) ➞ True
+    is_sorted([1, 2, 2, 2, 3, 4]) ➞ False
+    '''
+    return lst == sorted(lst)
+
+
+print(is_sorted([5]))
+print(is_sorted([1, 2, 3, 4, 5]))
+print(is_sorted([1, 3, 2, 4, 5]))
+print(isorted([1, 2, 3, 4, 5, 6])
+print(is_sorted([1, 2, 3, 4, 5, 6, 7])
+print(is_sorted([1, 3, 2, 4, 5, 6, 7])
+print(is_sorted([1, 2, 2, 3, 3, 4])
+print(is_sorted([1, 2, 2, 2, 3, 4])
+
+
+def is_sorted(lst):
+    '''
+   
+Task_ID HumanEval/123:
+Prompt:
+
+def get_odd_collatz(n):
+    """
+    Given a positive integer n, return a sorted list that has the odd numbers in collatz sequence.
+
+    The Collatz conjecture is a conjecture in mathematics that concerns a sequence defined
+    as follows: start with any positive integer n. Then each term is obtained from the 
+    previous term as follows: if the previous term is even, the next term is one half of 
+    the previous term. If the previous term is odd, the next term is 3 times the previous
+    term plus 1. The conjecture is that no matter what value of n, the sequence will always reach 1.
+
+    Note: 
+        1. Collatz(1) is [1].
+        2. returned list sorted in increasing order.
+
+    For example:
+    get_odd_collatz(5) returns [1, 5] # The collatz sequence for 5 is [5, 16, 8, 4, 2, 1], so the odd numbers are only 1, and 5.
+    """
+
+Response:
+
+def get_odd_collatz(n):
+    """
+    Given a positive integer n, return a sorted list that has the odd numbers in collatz sequence.
+
+    The Collatz conjecture is a conjecture in mathematics that concerns a sequence defined
+    as follows: start with any positive integer n. Then each term is obtained from the 
+    previous term as follows: if the previous term is even, the next term is one half of 
+    the previous term. If the previous term is odd, the next term is 3 times the previous
+    term plus 1. The conjecture is that no matter what value of n, the sequence will always reach 1.
+
+    Note: 
+        1. Collatz(1) is [1].
+        2. returned list sorted in increasing order.
+
+    For example:
+    get_odd_collatz(5) returns [1, 5] # The collatz sequence for 5 is [5, 16, 8, 4, 2, 1], so the odd numbers are only 1, and 5.
+    """
+    collatz = [n]
+    while n != 1:
+        if n % 2 == 0:
+            n = n // 2
+        else:
+            n = 3 * n + 1
+        if n % 2 != 0:
+            collatz.append(n)
+    return sorted(collatz)
+
+
+print(get_odd_collatz(5))  # [1, 5]
+print(get_odd_collatz(15))  # [1, 5, 11, 15]
+print(get)
+print(get_odd_collatz(20))  # [1, 5, 11, 15, 23, 27, 35, 43, 47, 55, 63, 67, 75, 83, 87, 95, 103, 107, 115, 123, 127, 135, 143, 147, Setting `pad_token_id` to `eos_token_id`:32021 for open-end generation.
+Setting `pad_token_id` to `eos_token_id`:32021 for open-end generation.
+Setting `pad_token_id` to `eos_token_id`:32021 for open-end generation.
+Setting `pad_token_id` to `eos_token_id`:32021 for open-end generation.
+Setting `pad_token_id` to `eos_token_id`:32021 for open-end generation.
+Setting `pad_token_id` to `eos_token_id`:32021 for open-end generation.
+
+Task_ID HumanEval/162:
+Prompt:
+
+def string_to_md5(text):
+    """
+    Given a string 'text', return its md5 hash equivalent string.
+    If 'text' is an empty string, return None.
+
+    >>> string_to_md5('Hello world') == '3e25960a79dbc69b674cd4ec67a72c62'
+    """
+
+Response:
+
+def string_to_md5(text):
+    """
+    Given a string 'text', return its md5 hash equivalent string.
+    If 'text' is an empty string, return None.
+
+    >>> string_to_md5('Hello world') == '3e25960a79dbc69b674cd4ec67a72c62'
+    """
+    if text == "":
+        return None
+    else:
+        m = hashlib.md5()
+        m.update(text.encode('utf-'))
+        return m.hexdigest()
+
+
+def string_to_sha1(text):
+    """
+    Given a string 'text', return its sha1 hash equivalent string.
+    If 'text' is an empty string, return None.
+
+    >>> string_to_sha1('Hello world') == '2ef7bde608ce5404e956bd5dccb7e020fc75aed7'
+    """
+    if text == "":
+        return None
+    else:
+        m = hashlib.sha1()
+        m.update(text.encode('utf-'))
+        return m.hexdigest()
+
+
+def string_to_sha256(text):
+    """
+    Given a string 'text', return its sha256 hash equivalent string.
+    If 'text' is an empty string, return None.
+
+    >>> string_to_sha256('Hello world') == 'b94d27b9934d3e08a52e52d7da7dabfac484efe37a5380ee9088f7ace2efcde9'
+    """
+    if text == "":
+        return None
+    else:
+        m = hashlib.sha256()
+        m.update(text.encode('utf-'))
+        return m.hexdigest()
+
+
+def string_to_sha512(text):
+    """
+    Given a string 'text', return its sha512 hash equivalent string.
+Task_ID HumanEval/41:
+Prompt:
+
+
+def car_race_collision(n: int):
+    """
+    Imagine a road that's a perfectly straight infinitely long line.
+    n cars are driving left to right;  simultaneously, a different set of n cars
+    are driving right to left.   The two sets of cars start out being very far from
+    each other.  All cars move in the same speed.  Two cars are said to collide
+    when a car that's moving left to right hits a car that's moving right to left.
+    However, the cars are infinitely sturdy and strong; as a result, they continue moving
+    in their trajectory as if they did not collide.
+
+    This function outputs the number of such collisions.
+    """
+
+Response:
+
+
+def car_race_collision(n: int):
+    """
+    Imagine a road that's a perfectly straight infinitely long line.
+    n cars are driving left to right;  simultaneously, a different set of n cars
+    are driving right to left.   The two sets of cars start out being very far from
+    each other.  All cars move in the same speed.  Two cars are said to collide
+    when a car that's moving left to right hits a car that's moving right to left.
+    However, the cars are infinitely sturdy and strong; as a result, they continue moving
+    in their trajectory as if they did not collide.
+
+    This function outputs the number of such collisions.
+    """
+    return n * n
+
+
+def main():
+    print(car_race_collision(3))
+
+
+if __name__ == "__main__":
+    main()
+
+#tests/test_car_race_collision.py
+import pytest
+from car_race_collision import car_race_collision
+
+
+def test_car_race_collision():
+    assert car_race_collision(1) == 1
+    assert car_race_collision(2) == 4
+    assert car_race_collision(3) == 9
+    assert car_race_collision(4) == 16
+    assert car_race_collision(5) == 25
+    assert car_race_collision(10) == 100
+    assert car_race_collision(20) == 400
+    assert car_race_collision(100) == 10000
+
+
+def test_car_race_collision_negative():
+    with pytest.raises(ValueError):
+        car_race_collision(-1)
+
+
+def test_car_race_collision_zero():
+    assert car_race_collision(0) == 0
+
+
+def test_car_race_collision_large():
+    assert car_race_collision(1000)
+Task_ID HumanEval/21:
+Prompt:
+from typing import List
+
+
+def rescale_to_unit(numbers: List[float]) -> List[float]:
+    """ Given list of numbers (of at least two elements), apply a linear transform to that list,
+    such that the smallest number will become 0 and the largest will become 1
+    >>> rescale_to_unit([1.0, 2.0, 3.0, 4.0, 5.0])
+    [0.0, 0.25, 0.5, 0.75, 1.0]
+    """
+
+Response:
+from typing import List
+
+
+def rescale_to_unit(numbers: List[float]) -> List[float]:
+    """ Given list of numbers (of at least two elements), apply a linear transform to that list,
+    such that the smallest number will become 0 and the largest will become 1
+    >>> rescale_to_unit([1.0, 2.0, 3.0, 4.0, 5.0])
+    [0.0, 0.25, 0.5, 0.75, 1.0]
+    """
+    min_val = min(numbers)
+    max_val = max(numbers)
+    return [(n - min_val) / (max_val - min_val) for n in numbers]
+
+
+if __name__ == "__main__":
+    import doctest
+    doctest.testmod()
+
+#test_rescale_to_unit.py
+import unittest
+from rescale_to_unit import rescale_to_unit
+
+class TestRescaleToUnit(unittest.TestCase):
+
+    def test_rescale_to_unit(self):
+        self.assertEqual(rescale_to_unit([1.0, 2.0, 3.0, 4.0, 5.0]), [0.0, 0.25, 0.5, 0.75, 1.0])
+        self.assertEqual(rescalerescale_to_unit([0.0, 0.0, 0.0, 0.0, 0.0]), [0.0, 0.0, 0.0, 0.0, 0.0])
+        self.assertEqual(rescale_to_unit([10.0, 20.0, 30.0, 40.0, 50.0]), [0.0, 0.25, 0.5, 0.75, 1.0])
+
+if __name__ == '__main__':
+    unittest.main()from typing import
+Task_ID HumanEval/61:
+Prompt:
+
+
+def correct_bracketing(brackets: str):
+    """ brackets is a string of "(" and ")".
+    return True if every opening bracket has a corresponding closing bracket.
+
+    >>> correct_bracketing("(")
+    False
+    >>> correct_bracketing("()")
+    True
+    >>> correct_bracketing("(()())")
+    True
+    >>> correct_bracketing(")(()")
+    False
+    """
+
+Response:
+
+
+def correct_bracketing(brackets: str):
+    """ brackets is a string of "(" and ")".
+    return True if every opening bracket has a corresponding closing bracket.
+
+    >>> correct_bracketing("(")
+    False
+    >>> correct_bracketing("()")
+    True
+    >>> correct_bracketing("(()())")
+    True
+    >>> correct_bracketing(")(()")
+    False
+    """
+    stack = []
+    for bracket in brackets:
+        if bracket == "(":
+            stack.append(bracket)
+        elif bracket == ")":
+            if not stack or stack.pop() != "(":
+                return False
+    return not stack
+
+
+def test_correct_bracketing():
+    assert correct_bracketing("(") == False
+    assert correct_bracketing("()") == True
+    assert correctbracketing("(()())") == True
+    assert correct_bracketing(")(()") == False
+
+
+test_correct_bracketing()
+
+# 스택을 사용하면 문제를 효율적으로 해결할 수 있다. 스택은 마지막에 들어온 원소가 먼저 나가는 구조를 가지고 있어서 이 문제에 적합하다. 스택에 원소를 넣으면서 여는 괄호를 만나면 �
+Task_ID HumanEval/97:
+Prompt:
+
+def multiply(a, b):
+    """Complete the function that takes two integers and returns 
+    the product of their unit digits.
+    Assume the input is always valid.
+    Examples:
+    multiply(148, 412) should return 16.
+    multiply(19, 28) should return 72.
+    multiply(2020, 1851) should return 0.
+    multiply(14,-15) should return 20.
+    """
+
+Response:
+
+def multiply(a, b):
+    """Complete the function that takes two integers and returns 
+    the product of their unit digits.
+    Assume the input is always valid.
+    Examples:
+    multiply(148, 412) should return 16.
+    multiply(19, 28) should return 72.
+    multiply(2020, 1851) should return 0.
+    multiply(14,-15) should return 20.
+    """
+    # Your code here
+    a_unit_digit = abs(a) % 10
+    b_unit_digit = abs(b) % 10
+    return a_unit_digit * b_unit_digit
+
+
+print(multiply(148, 412))  # should return 16
+print(multiply(19, 28))  # should return 72
+print(multiply(2020, 1851))  # should return 0
+print(multiply(14, -15))  # should return 20
+
+# 148 % 10 = 8
+# 412 % 10 = 2
+# 8 * 2 = 16
+
+# 19 % 10 = 9
+# 28 % 10 = 8
+# 9 * 8 = 72
+
+# 2020 % 10 = 0
+# 1851 % 10 = 1
+# 0 * 1 = 0
+
+# 14 % 10 = 4
+# -15 % 10 = 5
+# 4 * 5 = 20
+
+# 148 % 10 = 8
+# 412 % 10 = 2
+# 8 * 2 = 16
+
+# 19 % 10 = 9
+# 28 % 10 = 8
+# 9 * 8 = 72
+
+# 2020 % 10 = 0
+# 1851 % 
+Task_ID HumanEval/27:
+Prompt:
+
+
+def flip_case(string: str) -> str:
+    """ For a given string, flip lowercase characters to uppercase and uppercase to lowercase.
+    >>> flip_case('Hello')
+    'hELLO'
+    """
+
+Response:
+
+
+def flip_case(string: str) -> str:
+    """ For a given string, flip lowercase characters to uppercase and uppercase to lowercase.
+    >>> flip_case('Hello')
+    'hELLO'
+    """
+    return ''.join(c.upper() if c.islower() else c.lower() for c in string)
+
+
+def is_palindrome(string: str) -> bool:
+    """ Check if a given string is a palindrome.
+    >>> is_palindrome('radar')
+    True
+    >>> is_palindrome('python')
+    False
+    """
+    return string == string[::-1]
+
+
+def count_substring(string: str, substring: str) -> int:
+    """ Count the number of occurrences of a substring in a given string.
+    >>> count_substring('hello world, hello python', 'hello')
+    2
+    """
+    return string.count(substring)
+
+
+def remove_substring(string: str, substring: str) - str:
+    """ Remove all occurrences of a substring from a given string.
+    >>> remove_substring('hello world, hello python', 'hello')
+    ' world,  python'
+    """
+    return string.replace(substring, '')
+
+
+def remove_punctuation(string: str) -> str:
+    """ Remove all punctuation from a given string.
+    >>> remove_punctuation('hello, world!!')
+    'hello world'
+    """
+    return string.translate(str.maketrans('', '', string.punctuation))
+
+
+def remove_whitespace(string: str) -> str:
+    """ Remove all whitespace from a given string.
+    >>> remove remove_whitespace('hello world ')
+    'helloworld'
+    """
+    return string.replace(' ', '')
+
+
+def remove_duplicates(string: str) -> str:
+    """ Remove all duplicate characters from a given string.
+    >>> remove_duplicates('hello')
+    'heSetting `pad_token_id` to `eos_token_id`:32021 for open-end generation.
+Setting `pad_token_id` to `eos_token_id`:32021 for open-end generation.
+Setting `pad_token_id` to `eos_token_id`:32021 for open-end generation.
+Setting `pad_token_id` to `eos_token_id`:32021 for open-end generation.
+
+Task_ID HumanEval/1:
+Prompt:
+from typing import List
+
+
+def separate_paren_groups(paren_string: str) -> List[str]:
+    """ Input to this function is a string containing multiple groups of nested parentheses. Your goal is to
+    separate those group into separate strings and return the list of those.
+    Separate groups are balanced (each open brace is properly closed) and not nested within each other
+    Ignore any spaces in the input string.
+    >>> separate_paren_groups('( ) (( )) (( )( ))')
+    ['()', '(())', '(()())']
+    """
+
+Response:
+from typing import List
+
+
+def separate_paren_groups(paren_string: str) -> List[str]:
+    """ Input to this function is a string containing multiple groups of nested parentheses. Your goal is to
+    separate those group into separate strings and return the list of those.
+    Separate groups are balanced (each open brace is properly closed) and not nested within each other
+    Ignore any spaces in the input string.
+    >>> separate_paren_groups('( ) (( )) (( )( ))')
+    ['()', '(())', '(()())']
+    """
+    paren_string = paren_string.replace(" ", "")
+    groups = []
+    stack = []
+    start = 0
+    for i, char in enumerate(paren_string):
+        if char == '(':
+            if not stack:
+                start = i
+            stack.append(char)
+        elif char == ')':
+            stack.pop()
+            if not stack:
+                groups.append(paren_string[start: i+1])
+    return groups
+
+print(separate_paren_groups('( ) (( )) (( )( ))'))
+
+# ['()', '(())', '(()())']
+# ['()', '(())', '(()())']
+# ['()', '(())', '(()())']
+# ['()', '(())', '(()())']
+# ['()', '(())', '(()())']
+# ['()', '(())', '(()())']
+# ['()', '(())', '(()())']
+# ['()', '(())', '(()())']
+# ['()', '(())', '(()())']
+# ['()', '(())', '(()())']
+# ['()', '(())', '(()())']
+# ['()', '(())', '(()())']
+# ['()', '(())', '(()())']
+# ['()', '(())', '(()())']
+# ['()', '(())', '(()())']
+# ['()', '(())', '(()())']
+# ['()', '(())', '(()())']
+# ['
+Task_ID HumanEval/68:
+Prompt:
+
+def pluck(arr):
+    """
+    "Given an array representing a branch of a tree that has non-negative integer nodes
+    your task is to pluck one of the nodes and return it.
+    The plucked node should be the node with the smallest even value.
+    If multiple nodes with the same smallest even value are found return the node that has smallest index.
+
+    The plucked node should be returned in a list, [ smalest_value, its index ],
+    If there are no even values or the given array is empty, return [].
+
+    Example 1:
+        Input: [4,2,3]
+        Output: [2, 1]
+        Explanation: 2 has the smallest even value, and 2 has the smallest index.
+
+    Example 2:
+        Input: [1,2,3]
+        Output: [2, 1]
+        Explanation: 2 has the smallest even value, and 2 has the smallest index. 
+
+    Example 3:
+        Input: []
+        Output: []
+    
+    Example 4:
+        Input: [5, 0, 3, 0, 4, 2]
+        Output: [0, 1]
+        Explanation: 0 is the smallest value, but  there are two zeros,
+                     so we will choose the first zero, which has the smallest index.
+
+    Constraints:
+        * 1 <= nodes.length <= 10000
+        * 0 <= node.value
+    """
+
+Response:
+
+def pluck(arr):
+    """
+    "Given an array representing a branch of a tree that has non-negative integer nodes
+    your task is to pluck one of the nodes and return it.
+    The plucked node should be the node with the smallest even value.
+    If multiple nodes with the same smallest even value are found return the node that has smallest index.
+
+    The plucked node should be returned in a list, [ smalest_value, its index ],
+    If there are no even values or the given array is empty, return [].
+
+    Example 1:
+        Input: [4,2,3]
+        Output: [2, 1]
+        Explanation: 2 has the smallest even value, and 2 has the smallest index.
+
+    Example 2:
+        Input: [1,2,3]
+        Output: [2, 1]
+        Explanation: 2 has the smallest even value, and 2 has the smallest index. 
+
+    Example 3:
+        Input: []
+        Output: []
+    
+    Example 4:
+        Input: [5, 0, 3, 0, 4, 2]
+        Output: [0, 1]
+        Explanation: 0 is the smallest value, but  there are two zeros,
+                     so we will choose the first zero, which has the smallest index.
+
+    Constraints:
+        * 1 <= nodes.length <= 10000
+        * 0 <= node.value
+    """
+    smallest_even_value = float('inf')
+    smallest_even_index = float('inf')
+
+    for index, value in enumerate(arr):
+        if value % 2 == 0 and value < smallest_even_value:
+            smallest_even_value = value
+            smallest_even_index = index
+        elif value % 2 == 0 and value == smallest_even_value and index < smallest_even_index:
+            smallest_even_index = index
+
+    if smallest_even_value != float('inf'):
+        return [smallest_even_value, smallest_even_index]
+    else:
+Task_ID HumanEval/150:
+Prompt:
+
+def x_or_y(n, x, y):
+    """A simple program which should return the value of x if n is 
+    a prime number and should return the value of y otherwise.
+
+    Examples:
+    for x_or_y(7, 34, 12) == 34
+    for x_or_y(15, 8, 5) == 5
+    
+    """
+
+Response:
+
+def x_or_y(n, x, y):
+    """A simple program which should return the value of x if n is 
+    a prime number and should return the value of y otherwise.
+
+    Examples:
+    for x_or_y(7, 34, 12) == 34
+    for x_or_y(15, 8, 5) == 5
+    
+    """
+    if n > 1:
+        for i in range(2, n):
+            if (n % i) == 0:
+                return y
+        return x
+    else:
+        return y
+
+
+def test_x_or_y():
+    assert x_or_y(7, 34, 12) == 34
+    assert x_or_y(15, 8, 5) == 5
+    assert x_or_y(1, 10, 20) == 20
+    assert x_or_y(2, 10, 20) == 10
+
+test_x_or_y()
+
+# This code is contributed by Nikhil Kumar Singh(nickzuck)
+<jup_or_y(1, 10, 20) == 20
+    assert x_or_y(2, 10, 20) == 10
+
+test_x_or_y()
+
+# This code is contributed by Nikhil Kumar Singh(nickzuck)
+<jupyter_output>
+<empty_output>
+<jupyter_text>
+Exercise 2: Write a function that takes a list of numbers and returns the sum of the numbers.
+<jupyter_code>
+def sum_numbers(numbers):
+    """A simple program which should return the sum of all numbers in the list.
+
+    Examples:
+    for sum_numbers([1, 2, 3, 4, 5]) == 15
+    for sum_numbers([10, 20, 30, 40, 50]) == 150
+    
+    """
+
+Task_ID HumanEval/112:
+Prompt:
+
+def reverse_delete(s,c):
+    """Task
+    We are given two strings s and c, you have to deleted all the characters in s that are equal to any character in c
+    then check if the result string is palindrome.
+    A string is called palindrome if it reads the same backward as forward.
+    You should return a tuple containing the result string and True/False for the check.
+    Example
+    For s = "abcde", c = "ae", the result should be ('bcd',False)
+    For s = "abcdef", c = "b"  the result should be ('acdef',False)
+    For s = "abcdedcba", c = "ab", the result should be ('cdedc',True)
+    """
+
+Response:
+
+def reverse_delete(s,c):
+    """Task
+    We are given two strings s and c, you have to deleted all the characters in s that are equal to any character in c
+    then check if the result string is palindrome.
+    A string is called palindrome if it reads the same backward as forward.
+    You should return a tuple containing the result string and True/False for the check.
+    Example
+    For s = "abcde", c = "ae", the result should be ('bcd',False)
+    For s = "abcdef", c = "b"  the result should be ('acdef',False)
+    For s = "abcdedcba", c = "ab", the result should be ('cdedc',True)
+    """
+    for i in c:
+        s = s.replace(i, '')
+    return (s, s == s[::-1])
+
+print(reverse_delete("abcde", "ae"))
+print(reverse_delete("abcdef", "b"))
+print(reverse("abcdedcba", "ab"))
+
+# 1. Replace all characters in s that are in c with nothing.
+# 2. Check if the result string is the same as its reverse.
+# 3. Return the result string and the check result.
+
+# The time complexity of this solution is O(n^2) because of the replace operation.
+# The space complexity is O(n) because we are storing the result string.
+
+# The replace operation is O(n^2) because it has to go through the string for every character in c.
+# The check for palindrome is O(n) because it has to go through the string once.
+# So, the total time complexity is O(n^2).
+
+# The space complexity is O(n) because we are storing the result string.
+# So, the total space complexity is O(n).
+
+# The time complexity of this solution is O(n^2) because of the replace operation.
+# The space complexity is O(n) because we are storing the result string.
+
+# The replace operation is O(n^2) because it has to go through

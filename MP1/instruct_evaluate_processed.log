@@ -1,0 +1,7 @@
+Reading samples...
+0it [00:00, ?it/s]20it [00:00, 681.58it/s]
+Running test suites...
+  0%|          | 0/20 [00:00<?, ?it/s] 55%|█████▌    | 11/20 [00:00<00:00, 108.52it/s]100%|██████████| 20/20 [00:00<00:00, 123.14it/s]
+Writing results to instruct_prompt_processed_90448446955918181667013849996020113420.jsonl_results.jsonl...
+  0%|          | 0/20 [00:00<?, ?it/s]100%|██████████| 20/20 [00:00<00:00, 35098.78it/s]
+{'pass@1': np.float64(0.6)}
