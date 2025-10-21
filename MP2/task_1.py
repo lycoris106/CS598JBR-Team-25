@@ -2,6 +2,7 @@ import jsonlines
 import sys
 import torch
 import re
+import textwrap
 from transformers import AutoTokenizer, AutoModelForCausalLM, BitsAndBytesConfig
 
 #####################################################
@@ -18,7 +19,8 @@ def extract_test_case(test_code):
     Handles list, tuple, and scalar outputs.
     """
     # Find the first assertion like: assert candidate(...) == something
-    match = re.search(r"assert\s+candidate\s*\((.*?)\)\s*==\s*(.+)", test_code)
+    pattern = r"assert\s+candidate\s*\((.*?)\)\s*==\s*(.+?)(?:\s*#.*)?$"
+    match = re.search(pattern, test_code, flags=re.MULTILINE)
     if not match:
         return None, None
 
@@ -38,6 +40,44 @@ def extract_test_case(test_code):
 
     expected_output_str = output_match.group(0).strip() if output_match else None
     return input_str, expected_output_str
+
+def extract_additional_test_cases(test_code, max_pairs=5):
+    """
+    Returns up to `max_pairs` (input_str, expected_output_str) pairs
+    *after* the first assertion. If fewer than 6 total assertions exist,
+    returns as many as are available beyond the first.
+
+    It handles list/tuple/scalar RHS the same way as `extract_test_case`.
+    """
+    # Find all `assert candidate(...) == ...` lines, one per line
+    # Stop at line end (optionally before an inline comment).
+    pattern = r"assert\s+candidate\s*\((.*?)\)\s*==\s*(.+?)(?:\s*#.*)?$"
+    matches = list(re.finditer(pattern, test_code, flags=re.MULTILINE))
+
+    if not matches or len(matches) <= 1:
+        return []  # nothing beyond the first
+
+    pairs = []
+    for m in matches[1:]:  # skip the first match
+        input_str = m.group(1).strip()
+        rhs = m.group(2).strip()
+
+        # Decide output type by first non-space char
+        if rhs.startswith('['):
+            out_m = re.search(r"\[.*?\]", rhs)
+        elif rhs.startswith('('):
+            out_m = re.search(r"\(.*?\)", rhs)
+        else:
+            out_m = re.search(r"([^,\s\n]+)", rhs)
+
+        expected_output_str = out_m.group(0).strip() if out_m else None
+        if expected_output_str is not None:
+            pairs.append((input_str, expected_output_str))
+        if len(pairs) >= max_pairs:
+            break
+
+    return pairs
+
 
 def prompt_model(dataset, model_name = "deepseek-ai/deepseek-coder-6.7b-instruct", vanilla = True):
     print(f"Working with {model_name} prompt type {vanilla}...")
@@ -66,13 +106,14 @@ def prompt_model(dataset, model_name = "deepseek-ai/deepseek-coder-6.7b-instruct
         # TODO: create prompt for the model
         # Tip : Use can use any data from the dataset to create 
         #       the prompt including prompt, canonical_solution, test, etc.
-        TASK_PROMPT = entry['prompt']
-        program_str = entry['canonical_solution']
+        prompt = ""
+        if vanilla:
         
-        input_str, expected_output_str = extract_test_case(entry['test'])
-        
-
-        prompt = f"""
+            input_str, expected_output_str = extract_test_case(entry['test'])
+            
+            task_prompt = entry['prompt']
+            program_str = entry['canonical_solution']
+            prompt = f"""
 You are an AI programming assistant, utilizing the DeepSeek Coder model, developed by DeepSeek Company, and you only answer questions related to computer science. 
 For politically sensitive questions, security and privacy issues, and other non-computer science questions, you will refuse to answer.
 
@@ -86,24 +127,71 @@ The return value prediction must be enclosed between [Output] and [/Output] tags
 
 ### Response:
 """
-        
+        else:
+            # advanced prompt crafting
+            input_str, expected_output_str = extract_test_case(entry['test'])
+            few_shot_pairs = extract_additional_test_cases(entry['test'], max_pairs=5)
+
+            task_prompt = entry['prompt']
+            task_desc = textwrap.dedent(task_prompt).strip() 
+            program_str = entry['canonical_solution']
+            
+            examples_block_lines = []
+            for i_s, o_s in few_shot_pairs:
+                examples_block_lines.append(
+                    f"[Input]{i_s}[/Input]\n"
+                    f"Reasoning:\n"
+                    f"(explain briefly how the code transforms the input to produce the output)\n"
+                    f"[Output]{o_s}[/Output]"
+                )
+            examples_block = "\n\n".join(examples_block_lines)
+
+            # If no extra assertions found, we still run CoT but without ICL exemplars
+            examples_section = (
+                f"### In-Context Examples\n{examples_block}\n\n"
+                if examples_block else
+                "### In-Context Examples\n(none available from tests)\n\n"
+            )
+
+            prompt = f"""
+You are an AI programming assistant that predicts the return value of a Python function
+by mentally executing the code. Follow the format exactly and preserve Python literal
+syntax (lists [], tuples (), dicts {{}}, strings with quotes, etc.). Do not invent new
+variables. Do not modify the code. Base your reasoning on the task description and the code.
+
+Rules:
+1) Under 'Reasoning:', explain step by step how the code runs on the given input.
+2) End with a single pair of [Output]...[/Output] containing ONLY the final return value.
+3) If the true output is a list/tuple/dict/string, keep brackets/parentheses/quotes exactly.
+4) Output nothing besides the 'Reasoning:' section and the final [Output] block.
+
+### Task (verbatim from dataset)
+{task_desc}
+
+### Code under analysis
+{program_str}
+
+{examples_section}### Now solve the following in the same format
+[Input]{input_str}[/Input]
+Reasoning:
+"""
+
         # TODO: prompt the model and get the response
         inputs = tokenizer(prompt, return_tensors="pt").to(model.device)
         with torch.no_grad():
             output_ids = model.generate(
                 **inputs,
-                max_length=500,
+                max_new_tokens=300,
                 do_sample=False,
                 # temperature=0.0, No need when do_sample=False
             )
-        response = tokenizer.decode(output_ids[0], skip_special_tokens=True)
+        # Remove the prompt part 
+        gen_ids = output_ids[0][inputs["input_ids"].shape[-1]:]
+        response = tokenizer.decode(gen_ids, skip_special_tokens=True)
 
         # TODO: process the response and save it to results
-        pred_matches = re.findall(r"\[Output\](.*?)\[/Output\]", response, re.DOTALL)
-        if pred_matches:
-            pred_output = pred_matches[-1].strip()  # get the last occurrence
-        else:
-            pred_output = None
+        pred_match = re.search(r"\[Output\](.*?)\[/Output\]", response, re.DOTALL)
+        pred_output = pred_match.group(1).strip() if pred_match else None
         print(f"expected_output_str: {expected_output_str}, pred_output: {pred_output}")
         
         verdict = False
