@@ -94,12 +94,16 @@ Only write unit tests in the output and nothing else.
 - DO NOT write many assertions in one test function, but write MULTIPLE test functions with MINIMAL assertions.
 - Make sure you review the code line by line after you write it, don't use functions that are NOT defined or external.
 
-### Important Rules:
+### Hard Rules (must follow exactly):
 - **Base all expected results on the actual implemented logic in the code**; when unsure, **walk through the code line-by-line** and derive outputs. **Do not invent semantics** beyond code/task description.
 - Cover: typical, boundary/degenerate (empty/zero/min/max/singleton/large/negative), type variations within spec, rare branches/early returns, and **error/exception** paths where applicable.
 - Follow the input constraints from the task exactly.  
 - Do NOT create inputs outside the spec (e.g., if the prompt says "letters and spaces", avoid digits or punctuation).
+- Use **4-space indentation** consistently. Do not mix tabs.
+- **Type-accurate assertions**: list vs tuple vs string must match exactly.  
+  If a function returns a **single-element tuple**, write it as `('x',)` (with trailing comma), never `('x')`.
 
+  
 ### Task Prompt and Code:
 {TASK_PROMPT + "\n" + program_str}
 
@@ -180,6 +184,7 @@ if __name__ == "__main__":
     dataset = read_jsonl(input_dataset)
     results = prompt_model(dataset, model, vanilla)
     write_jsonl(results, output_file)
+
 
 
 
