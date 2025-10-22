@@ -85,34 +85,19 @@ Only write unit tests in the output and nothing else.
 1. Read the task prompt and the code carefully
 2. Generate a pytest test suite for the given code, including multiple test functions to cover all the code.
 
-### Constraints:
-- You must generate multiple test functions to cover all the code.
-- **CRITICAL**: Only write unit tests in the output and nothing else, no other text or comments.
-
-### Instructions:
-- You are supposed to generate **NOT ONLY ONE** test function, but multiple test functions to cover all the code.
-- DO NOT write many assertions in one test function, but write MULTIPLE test functions with MINIMAL assertions.
-- Make sure you review the code line by line after you write it, don't use functions that are NOT defined or external.
-
-### Hard Rules (must follow exactly):
-- **Base all expected results on the actual implemented logic in the code**; when unsure, **walk through the code line-by-line** and derive outputs. **Do not invent semantics** beyond code/task description.
-- Cover: typical, boundary/degenerate (empty/zero/min/max/singleton/large/negative), type variations within spec, rare branches/early returns, and **error/exception** paths where applicable.
-- Follow the input constraints from the task exactly.  
-- Do NOT create inputs outside the spec (e.g., if the prompt says "letters and spaces", avoid digits or punctuation).
-- Use **4-space indentation** consistently. Do not mix tabs.
-- **Type-accurate assertions**: list vs tuple vs string must match exactly.  
-  If a function returns a **single-element tuple**, write it as `('x',)` (with trailing comma), never `('x')`.
-
-### Semantics First (stop guessing)
-Before writing assertions, **determine the exact predicate used in the implementation** (for example, `len(word) == k` vs `< k` vs `<= k` vs `>= k`) by reading the code line-by-line.
-- Prefer tests that make the predicate unambiguous by construction, instead of natural sentences.
-- Build strings from tokens with **known lengths**, e.g.:
-  - `"a bb cccc ddd"` (lengths 1,2,4,3)
-  - `"xxxxx yy z"` (5,2,1)
-- Then verify around the boundary using **k-1, k, k+1** to prove inclusion/exclusion is correct.
-- If the code filters by a different property (not length), construct tokens that isolate that property in the same way.
-- If the code returns empty for out-of-range or invalid k, assert `[]` (or the correct empty type).
-- Don't use "assert select_words("Hello world", 5) == ["world"]", right have more items than left
+Rules:
+- Start with:
+    import pytest
+    from Codes.{entry['task_id'].replace('/', '_')} import *
+- Create **multiple small test functions** (1–3 assertions each) to cover all branches.
+- Each `def test_...():` must contain at least one indented `assert` on the next line.
+- Use 4-space indentation, no blank lines after `def`.
+- Cover normal, boundary, empty, large, and invalid inputs, plus exception paths.
+- Derive expected results **from the actual code logic** (read line-by-line).
+- Keep assertions **type-accurate** (list vs tuple vs str).  
+  For single-element tuples, use `('x',)` not `('x')`.
+- Do **not** use print(), input(), random, time, file/network I-O, or external libs.
+- Respect input constraints; quote strings properly and keep parentheses balanced.
 
   
 ### Task Prompt and Code:
@@ -195,6 +180,7 @@ if __name__ == "__main__":
     dataset = read_jsonl(input_dataset)
     results = prompt_model(dataset, model, vanilla)
     write_jsonl(results, output_file)
+
 
 
 
