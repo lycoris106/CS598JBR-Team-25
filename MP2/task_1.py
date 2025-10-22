@@ -13,56 +13,58 @@ def save_file(content, file_path):
     with open(file_path, 'w') as file:
         file.write(content)
 
+import re
+import random
+
 def extract_test_case(test_code):
     """
-    Extracts the first input and expected output from a HumanEval test string.
-    Handles list, tuple, and scalar outputs.
+    Randomly selects one assertion like: assert candidate(...) == something
+    from a HumanEval test string. Returns (input_str, expected_output_str, chosen_index).
     """
-    # Find the first assertion like: assert candidate(...) == something
-    pattern = r"assert\s+candidate\s*\((.*?)\)\s*==\s*(.+?)(?:\s*#.*)?$"
-    match = re.search(pattern, test_code, flags=re.MULTILINE)
-    if not match:
-        return None, None
-
-    input_str = match.group(1).strip()
-    rhs = match.group(2).strip()
-
-    # Identify output type based on first non-space character after '=='
-    if rhs.startswith('['):
-        # list output: everything between the first [ and the matching ]
-        output_match = re.search(r"\[.*?\]", rhs)
-    elif rhs.startswith('('):
-        # tuple output: everything between the first ( and matching )
-        output_match = re.search(r"\(.*?\)", rhs)
-    else:
-        # scalar: extract up to first comma, space, or newline
-        output_match = re.search(r"([^,\s\n]+)", rhs)
-
-    expected_output_str = output_match.group(0).strip() if output_match else None
-    return input_str, expected_output_str
-
-def extract_additional_test_cases(test_code, max_pairs=5):
-    """
-    Returns up to `max_pairs` (input_str, expected_output_str) pairs
-    *after* the first assertion. If fewer than 6 total assertions exist,
-    returns as many as are available beyond the first.
-
-    It handles list/tuple/scalar RHS the same way as `extract_test_case`.
-    """
-    # Find all `assert candidate(...) == ...` lines, one per line
-    # Stop at line end (optionally before an inline comment).
     pattern = r"assert\s+candidate\s*\((.*?)\)\s*==\s*(.+?)(?:\s*#.*)?$"
     matches = list(re.finditer(pattern, test_code, flags=re.MULTILINE))
 
-    if not matches or len(matches) <= 1:
-        return []  # nothing beyond the first
+    if not matches:
+        return None, None, None
+
+    # Randomly pick one assertion index
+    chosen_idx = random.randrange(len(matches))
+    m = matches[chosen_idx]
+
+    input_str = m.group(1).strip()
+    rhs = m.group(2).strip()
+
+    # Identify output type based on first non-space character
+    if rhs.startswith('['):
+        output_match = re.search(r"\[.*?\]", rhs)
+    elif rhs.startswith('('):
+        output_match = re.search(r"\(.*?\)", rhs)
+    else:
+        output_match = re.search(r"([^,\s\n]+)", rhs)
+
+    expected_output_str = output_match.group(0).strip() if output_match else None
+    return input_str, expected_output_str, chosen_idx
+
+
+def extract_additional_test_cases(test_code, exclude_idx=None, max_pairs=5):
+    """
+    Returns up to `max_pairs` (input_str, expected_output_str) pairs from assertions,
+    *excluding* the one specified by exclude_idx (the randomly chosen test).
+    """
+    pattern = r"assert\s+candidate\s*\((.*?)\)\s*==\s*(.+?)(?:\s*#.*)?$"
+    matches = list(re.finditer(pattern, test_code, flags=re.MULTILINE))
+
+    if not matches:
+        return []
 
     pairs = []
-    for m in matches[1:]:  # skip the first match
+    for i, m in enumerate(matches):
+        if i == exclude_idx:
+            continue  # skip the randomly chosen one
+
         input_str = m.group(1).strip()
         rhs = m.group(2).strip()
 
-        # Decide output type by first non-space char
         if rhs.startswith('['):
             out_m = re.search(r"\[.*?\]", rhs)
         elif rhs.startswith('('):
@@ -71,12 +73,13 @@ def extract_additional_test_cases(test_code, max_pairs=5):
             out_m = re.search(r"([^,\s\n]+)", rhs)
 
         expected_output_str = out_m.group(0).strip() if out_m else None
-        if expected_output_str is not None:
+        if expected_output_str:
             pairs.append((input_str, expected_output_str))
         if len(pairs) >= max_pairs:
             break
 
     return pairs
+
 
 
 def prompt_model(dataset, model_name = "deepseek-ai/deepseek-coder-6.7b-instruct", vanilla = True):
@@ -100,6 +103,8 @@ def prompt_model(dataset, model_name = "deepseek-ai/deepseek-coder-6.7b-instruct
 
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     model.to(device)
+
+    random.seed(4321)
     
     results = []
     for entry in dataset:
@@ -109,7 +114,8 @@ def prompt_model(dataset, model_name = "deepseek-ai/deepseek-coder-6.7b-instruct
         prompt = ""
         if vanilla:
         
-            input_str, expected_output_str = extract_test_case(entry['test'])
+            input_str, expected_output_str, _ = extract_test_case(entry['test'])
+
             
             task_prompt = entry['prompt']
             program_str = entry['canonical_solution']
@@ -129,8 +135,9 @@ The return value prediction must be enclosed between [Output] and [/Output] tags
 """
         else:
             # advanced prompt crafting
-            input_str, expected_output_str = extract_test_case(entry['test'])
-            few_shot_pairs = extract_additional_test_cases(entry['test'], max_pairs=5)
+            input_str, expected_output_str, chosen_idx = extract_test_case(entry['test'])
+            few_shot_pairs = extract_additional_test_cases(entry['test'], exclude_idx=chosen_idx, max_pairs=5)
+
 
             task_prompt = entry['prompt']
             task_desc = textwrap.dedent(task_prompt).strip() 
