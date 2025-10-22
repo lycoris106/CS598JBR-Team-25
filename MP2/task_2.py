@@ -85,11 +85,15 @@ Only write unit tests in the output and nothing else.
 1. Read the task prompt and the code carefully
 2. Generate a pytest test suite for the given code, including multiple test functions to cover all the code.
 
+### Constraints:
+- You must generate multiple test functions to cover all the code.
+- **CRITICAL**: Only write unit tests in the output and nothing else, no other text or comments.
+
+### Instructions:
+- You are supposed to generate **NOT ONLY ONE** test function, but multiple test functions to cover all the code.
+- DO NOT write many assertions in one test function, but write MULTIPLE test functions with MINIMAL assertions.
+
 ### Rules:
-- Start with:
-    import pytest
-    from Codes.{entry['task_id'].replace('/', '_')} import *
-- Create **multiple small test functions** (1–3 assertions each) to cover all branches.
 - Each `def test_...():` must contain at least one indented `assert` on the next line.
 - Use 4-space indentation, no blank lines after `def`.
 - Cover normal, boundary, empty, large, and invalid inputs, plus exception paths.
@@ -184,6 +188,7 @@ if __name__ == "__main__":
     dataset = read_jsonl(input_dataset)
     results = prompt_model(dataset, model, vanilla)
     write_jsonl(results, output_file)
+
 
 
 
