@@ -93,6 +93,17 @@ Only write unit tests in the output and nothing else.
 - You are supposed to generate **NOT ONLY ONE** test function, but multiple test functions to cover all the code.
 - DO NOT write many assertions in one test function, but write MULTIPLE test functions with MINIMAL assertions.
 
+### Important Rules:
+- Output **ONLY** pure Python pytest code — no markdown, explanations, or comments.
+- Always start with `import pytest`.
+- Follow the input constraints from the task exactly.  
+- Do NOT create inputs outside the spec (e.g., if the prompt says "letters and spaces", avoid digits or punctuation).
+- Ensure every string is properly quoted (use triple quotes if needed).
+- For single-element tuples, write them as ("value",) — not ("value").
+- Avoid unbalanced quotes or parentheses that may cause syntax errors.
+- Expected outputs must match the true logic and examples from the given code.
+- Write multiple short test functions (1–3 assertions each).
+
 ### Task Prompt and Code:
 {TASK_PROMPT + "\n" + program_str}
 
@@ -173,3 +184,4 @@ if __name__ == "__main__":
     dataset = read_jsonl(input_dataset)
     results = prompt_model(dataset, model, vanilla)
     write_jsonl(results, output_file)
+
