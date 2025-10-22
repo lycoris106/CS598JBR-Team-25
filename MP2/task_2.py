@@ -85,7 +85,7 @@ Only write unit tests in the output and nothing else.
 1. Read the task prompt and the code carefully
 2. Generate a pytest test suite for the given code, including multiple test functions to cover all the code.
 
-Rules:
+### Rules:
 - Start with:
     import pytest
     from Codes.{entry['task_id'].replace('/', '_')} import *
@@ -99,6 +99,10 @@ Rules:
 - Do **not** use print(), input(), random, time, file/network I-O, or external libs.
 - Respect input constraints; quote strings properly and keep parentheses balanced.
 
+### Critical:
+- **Do not guess semantics.** Read the code and determine the **exact predicate** (e.g., `== k` vs `< k` / `<= k` / `>= k`; or for ranges: `< n` vs `<= n`).
+- First, define a **local helper** inside the test file to compute **expected** results by **mirroring the code’s predicate exactly**.
+  Then assert `func(...) == expected_helper(...)`. This prevents mistakes on boundary conditions.
   
 ### Task Prompt and Code:
 {TASK_PROMPT + "\n" + program_str}
@@ -180,6 +184,7 @@ if __name__ == "__main__":
     dataset = read_jsonl(input_dataset)
     results = prompt_model(dataset, model, vanilla)
     write_jsonl(results, output_file)
+
 
 
 
