@@ -94,12 +94,17 @@ Only write unit tests in the output and nothing else.
 - DO NOT write many assertions in one test function, but write MULTIPLE test functions with MINIMAL assertions.
 
 ### Important Rules:
-- Output **ONLY** pure Python pytest code — no markdown, explanations, or comments.
+- **Base all expected results on the actual implemented logic in the code**; when unsure, **walk through the code line-by-line** and derive outputs. **Do not invent semantics** beyond code/task description.
+- Cover: typical, boundary/degenerate (empty/zero/min/max/singleton/large/negative), type variations within spec, rare branches/early returns, and **error/exception** paths where applicable.
+- **Type-accurate assertions**: match the exact return type (e.g., list vs tuple vs string).  
+  If the function returns a single-element tuple, write it as `('x',)` (with a trailing comma), **never** `('x')`.
+- Deterministic only: **do not** use print(), input(), random, time, file/network I/O, external libraries.
 - Follow the input constraints from the task exactly.  
 - Do NOT create inputs outside the spec (e.g., if the prompt says "letters and spaces", avoid digits or punctuation).
 - Ensure every string is properly quoted (use triple quotes if needed).
 - Avoid unbalanced quotes or parentheses that may cause syntax errors.
 - Expected outputs must match the true logic and examples from the given code.
+- Respect input constraints in the task/code. Keep strings properly quoted and parentheses balanced.
 
 ### Task Prompt and Code:
 {TASK_PROMPT + "\n" + program_str}
@@ -181,5 +186,6 @@ if __name__ == "__main__":
     dataset = read_jsonl(input_dataset)
     results = prompt_model(dataset, model, vanilla)
     write_jsonl(results, output_file)
+
 
 
