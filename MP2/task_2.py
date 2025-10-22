@@ -93,16 +93,6 @@ Only write unit tests in the output and nothing else.
 - You are supposed to generate **NOT ONLY ONE** test function, but multiple test functions to cover all the code.
 - DO NOT write many assertions in one test function, but write MULTIPLE test functions with MINIMAL assertions.
 
-### Rules:
-- Each `def test_...():` must contain at least one indented `assert` on the next line.
-- Use 4-space indentation, no blank lines after `def`.
-- Cover normal, boundary, empty, large, and invalid inputs, plus exception paths.
-- Derive expected results **from the actual code logic** (read line-by-line).
-- Keep assertions **type-accurate** (list vs tuple vs str).  
-  For single-element tuples, use `('x',)` not `('x')`.
-- Do **not** use print(), input(), random, time, file/network I-O, or external libs.
-- Respect input constraints; quote strings properly and keep parentheses balanced.
-
 ### Critical:
 - **Do not guess semantics.** Read the code and determine the **exact predicate** (e.g., `== k` vs `< k` / `<= k` / `>= k`; or for ranges: `< n` vs `<= n`).
 - First, define a **local helper** inside the test file to compute **expected** results by **mirroring the code’s predicate exactly**.
@@ -188,6 +178,7 @@ if __name__ == "__main__":
     dataset = read_jsonl(input_dataset)
     results = prompt_model(dataset, model, vanilla)
     write_jsonl(results, output_file)
+
 
 
 
