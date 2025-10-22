@@ -112,6 +112,7 @@ Before writing assertions, **determine the exact predicate used in the implement
 - Then verify around the boundary using **k-1, k, k+1** to prove inclusion/exclusion is correct.
 - If the code filters by a different property (not length), construct tokens that isolate that property in the same way.
 - If the code returns empty for out-of-range or invalid k, assert `[]` (or the correct empty type).
+- Don't use "assert select_words("Hello world", 5) == ["world"]", right have more items than left
 
   
 ### Task Prompt and Code:
@@ -194,6 +195,7 @@ if __name__ == "__main__":
     dataset = read_jsonl(input_dataset)
     results = prompt_model(dataset, model, vanilla)
     write_jsonl(results, output_file)
+
 
 
 
