@@ -103,6 +103,16 @@ Only write unit tests in the output and nothing else.
 - **Type-accurate assertions**: list vs tuple vs string must match exactly.  
   If a function returns a **single-element tuple**, write it as `('x',)` (with trailing comma), never `('x')`.
 
+### Semantics First (stop guessing)
+Before writing assertions, **determine the exact predicate used in the implementation** (for example, `len(word) == k` vs `< k` vs `<= k` vs `>= k`) by reading the code line-by-line.
+- Prefer tests that make the predicate unambiguous by construction, instead of natural sentences.
+- Build strings from tokens with **known lengths**, e.g.:
+  - `"a bb cccc ddd"` (lengths 1,2,4,3)
+  - `"xxxxx yy z"` (5,2,1)
+- Then verify around the boundary using **k-1, k, k+1** to prove inclusion/exclusion is correct.
+- If the code filters by a different property (not length), construct tokens that isolate that property in the same way.
+- If the code returns empty for out-of-range or invalid k, assert `[]` (or the correct empty type).
+
   
 ### Task Prompt and Code:
 {TASK_PROMPT + "\n" + program_str}
@@ -184,6 +194,7 @@ if __name__ == "__main__":
     dataset = read_jsonl(input_dataset)
     results = prompt_model(dataset, model, vanilla)
     write_jsonl(results, output_file)
+
 
 
 
