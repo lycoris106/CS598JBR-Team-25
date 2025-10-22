@@ -1,0 +1,1572 @@
+2025-10-22 02:19:16.784867: E external/local_xla/xla/stream_executor/cuda/cuda_fft.cc:467] Unable to register cuFFT factory: Attempting to register factory for plugin cuFFT when one has already been registered
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+E0000 00:00:1761099556.804873   35184 cuda_dnn.cc:8579] Unable to register cuDNN factory: Attempting to register factory for plugin cuDNN when one has already been registered
+E0000 00:00:1761099556.810846   35184 cuda_blas.cc:1407] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+W0000 00:00:1761099556.825940   35184 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+W0000 00:00:1761099556.825966   35184 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+W0000 00:00:1761099556.825969   35184 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+W0000 00:00:1761099556.825971   35184 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+2025-10-22 02:19:16.830526: I tensorflow/core/platform/cpu_feature_guard.cc:210] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+Working with deepseek-ai/deepseek-coder-6.7b-instruct prompt type True...
+Loading checkpoint shards:   0%|          | 0/2 [00:00<?, ?it/s]Loading checkpoint shards:  50%|█████     | 1/2 [00:52<00:52, 52.78s/it]Loading checkpoint shards: 100%|██████████| 2/2 [01:11<00:00, 32.54s/it]Loading checkpoint shards: 100%|██████████| 2/2 [01:11<00:00, 35.58s/it]
+Setting `pad_token_id` to `eos_token_id`:32021 for open-end generation.
+============================= test session starts ==============================
+platform linux -- Python 3.12.12, pytest-8.4.2, pluggy-1.6.0
+rootdir: /content/CS598JBR-Team-25/MP2
+plugins: cov-7.0.0, typeguard-4.4.4, langsmith-0.4.37, anyio-4.11.0
+collected 1 item
+
+Codes/HumanEval_96_test.py .                                             [100%]
+
+================================ tests coverage ================================
+_______________ coverage: platform linux, python 3.12.12-final-0 _______________
+
+Coverage JSON written to file Coverage/HumanEval_96_test_vanilla.json
+============================== 1 passed in 0.05s ===============================
+Setting `pad_token_id` to `eos_token_id`:32021 for open-end generation.
+============================= test session starts ==============================
+platform linux -- Python 3.12.12, pytest-8.4.2, pluggy-1.6.0
+rootdir: /content/CS598JBR-Team-25/MP2
+plugins: cov-7.0.0, typeguard-4.4.4, langsmith-0.4.37, anyio-4.11.0
+collected 1 item
+
+Codes/HumanEval_117_test.py F                                            [100%]
+
+=================================== FAILURES ===================================
+______________________________ test_select_words _______________________________
+
+    def test_select_words():
+        assert select_words("Mary had a little lamb", 4) == ["little"]
+        assert select_words("Mary had a little lamb", 3) == ["Mary", "lamb"]
+        assert select_words("simple white space", 2) == []
+        assert select_words("Hello world", 4) == ["world"]
+        assert select_words("Uncle sam", 3) == ["Uncle"]
+        assert select_words("", 3) == []  # test with an empty string
+>       assert select_words("123 456", 3) == []  # test with a string containing only numbers and spaces
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       AssertionError: assert ['123', '456'] == []
+E         
+E         Left contains 2 more items, first extra item: '123'
+E         Use -v to get more diff
+
+Codes/HumanEval_117_test.py:11: AssertionError
+================================ tests coverage ================================
+_______________ coverage: platform linux, python 3.12.12-final-0 _______________
+
+Coverage JSON written to file Coverage/HumanEval_117_test_vanilla.json
+=========================== short test summary info ============================
+FAILED Codes/HumanEval_117_test.py::test_select_words - AssertionError: asser...
+============================== 1 failed in 0.07s ===============================
+Setting `pad_token_id` to `eos_token_id`:32021 for open-end generation.
+============================= test session starts ==============================
+platform linux -- Python 3.12.12, pytest-8.4.2, pluggy-1.6.0
+rootdir: /content/CS598JBR-Team-25/MP2
+plugins: cov-7.0.0, typeguard-4.4.4, langsmith-0.4.37, anyio-4.11.0
+collected 1 item
+
+Codes/HumanEval_85_test.py F                                             [100%]
+
+=================================== FAILURES ===================================
+___________________________________ test_add ___________________________________
+
+    def test_add():
+        assert add([4, 2, 6, 7]) == 2
+>       assert add([1, 2, 3, 4, 5]) == 4
+E       assert 6 == 4
+E        +  where 6 = add([1, 2, 3, 4, 5])
+
+Codes/HumanEval_85_test.py:4: AssertionError
+================================ tests coverage ================================
+_______________ coverage: platform linux, python 3.12.12-final-0 _______________
+
+Coverage JSON written to file Coverage/HumanEval_85_test_vanilla.json
+=========================== short test summary info ============================
+FAILED Codes/HumanEval_85_test.py::test_add - assert 6 == 4
+============================== 1 failed in 0.16s ===============================
+Task_ID HumanEval/96:
+prompt:
+You are an AI programming assistant. You are an AI programming assistant, utilizing the DeepSeek Coder model, developed by DeepSeek Company, and you only answer questions related to computer science. For politically sensitive questions, security and privacy issues, and other non-computer science questions, you will refuse to answer.
+### Instruction:
+Generate a pytest test suite for the following code.
+Only write unit tests in the output and nothing else.
+
+def count_up_to(n):
+    """Implement a function that takes an non-negative integer and returns an array of the first n
+    integers that are prime numbers and less than n.
+    for example:
+    count_up_to(5) => [2,3]
+    count_up_to(11) => [2,3,5,7]
+    count_up_to(0) => []
+    count_up_to(20) => [2,3,5,7,11,13,17,19]
+    count_up_to(1) => []
+    count_up_to(18) => [2,3,5,7,11,13,17]
+    """
+
+    primes = []
+    for i in range(2, n):
+        is_prime = True
+        for j in range(2, i):
+            if i % j == 0:
+                is_prime = False
+                break
+        if is_prime:
+            primes.append(i)
+    return primes
+
+
+
+### Response:
+
+response:
+import pytest
+
+def test_count_up_to():
+    assert count_up_to(5) == [2, 3]
+    assert count_up_to(11) == [2, 3, 5, 7]
+    assert count_up_to(0) == []
+    assert count_up_to(20) == [2, 3, 5, 7, 11, 13, 17, 19]
+    assert count_up_to(1) == []
+    assert count_up_to(18) == [2, 3, 5, 7, 11, 13, 17]
+coverage:
+100.0
+Task_ID HumanEval/117:
+prompt:
+You are an AI programming assistant. You are an AI programming assistant, utilizing the DeepSeek Coder model, developed by DeepSeek Company, and you only answer questions related to computer science. For politically sensitive questions, security and privacy issues, and other non-computer science questions, you will refuse to answer.
+### Instruction:
+Generate a pytest test suite for the following code.
+Only write unit tests in the output and nothing else.
+
+def select_words(s, n):
+    """Given a string s and a natural number n, you have been tasked to implement 
+    a function that returns a list of all words from string s that contain exactly 
+    n consonants, in order these words appear in the string s.
+    If the string s is empty then the function should return an empty list.
+    Note: you may assume the input string contains only letters and spaces.
+    Examples:
+    select_words("Mary had a little lamb", 4) ==> ["little"]
+    select_words("Mary had a little lamb", 3) ==> ["Mary", "lamb"]
+    select_words("simple white space", 2) ==> []
+    select_words("Hello world", 4) ==> ["world"]
+    select_words("Uncle sam", 3) ==> ["Uncle"]
+    """
+
+    result = []
+    for word in s.split():
+        n_consonants = 0
+        for i in range(0, len(word)):
+            if word[i].lower() not in ["a","e","i","o","u"]:
+                n_consonants += 1 
+        if n_consonants == n:
+            result.append(word)
+    return result
+
+
+
+### Response:
+
+response:
+import pytest
+
+def test_select_words():
+    assert select_words("Mary had a little lamb", 4) == ["little"]
+    assert select_words("Mary had a little lamb", 3) == ["Mary", "lamb"]
+    assert select_words("simple white space", 2) == []
+    assert select_words("Hello world", 4) == ["world"]
+    assert select_words("Uncle sam", 3) == ["Uncle"]
+    assert select_words("", 3) == []  # test with an empty string
+    assert select_words("123 456", 3) == []  # test with a string containing only numbers and spaces
+    assert select_words("123 456", 0) == ["123", "456"]  # test with a string containing only numbers and spaces and n=0
+coverage:
+100.0
+Task_ID HumanEval/85:
+prompt:
+You are an AI programming assistant. You are an AI programming assistant, utilizing the DeepSeek Coder model, developed by DeepSeek Company, and you only answer questions related to computer science. For politically sensitive questions, security and privacy issues, and other non-computer science questions, you will refuse to answer.
+### Instruction:
+Generate a pytest test suite for the following code.
+Only write unit tests in the output and nothing else.
+
+def add(lst):
+    """Given a non-empty list of integers lst. add the even elements that are at odd indices..
+
+
+    Examples:
+        add([4, 2, 6, 7]) ==> 2 
+    """
+
+    return sum([lst[i] for i in range(1, len(lst), 2) if lst[i]%2 == 0])
+
+
+### Response:
+
+response:
+def test_add():
+    assert add([4, 2, 6, 7]) == 2
+    assert add([1, 2, 3, 4, 5]) == 4
+    assert add([10, 20, 30, 40, 50]) == 60
+    assert add([100, 200, 300, 400, 500]) == 600
+    assert add([1000, 2000, 3000, 4000, 5000]) == 6000
+    assert add([1, 1, 1, 1, 1]) == 0
+    assert add([2, 1, 2, 1, 2]) == 4
+    assert add([0, 1, 2, 3, 4]) == 2
+    assert add([4, 3, 2, 1, 0]) == 4
+    assert add([1, 2, 3, 4, 5, 6]) == 4
+    assert add([6, 5, 4, 3, 2, 1]) == 4
+    assert add([10, 20, 30, 40, 50, 60]) == 60
+    assert add([60, 50, 40, 30, 20, 10]) == 60
+    assert add([1, 0, 1, 0, 1, 0]) == 2
+    assert add([0, 1, 0, 1, 0, 1]) == 2
+    assert add([1, 2, 1, 2, 1, 2]) == 4
+    assert add([2, 1, 2, 1, 2, 1]) == 4
+    assert add([10, 20, 10, 20, 10, 20]) == 40
+    assert add([20, 10, 20, 10, 20, 10]) == 40
+    assert add([1, 0, 0, 0, 0, 1]) == 2
+    assert add([0, 0, 0, 0, 0, 0]) == 0
+    assert add([1, 1, 1, 1, 1, 1]) == 0
+    assert add([2, 2, 2, 2, 2, 2]) == 12
+    assert add([3, 3, 3, 3, 3, 3]) == 12
+    assert add([4, 4, 4, 4, 4, 4]) == 20
+    assert add([5, 5, 5, 5, 5, 5]) == 20
+    assert add([6, 6, 6, 6, 6, 6]) == 24
+    assert add([7, 7, 7, 7, 7, 7]) == 28
+    assert add([8, 8, 8, 8, 8, 8]) == 32
+    assert add([9, 9, 9, 9, 9, 9]) == 36
+    assert add([10, 10, 10, 10, 10, 10]) == 40
+    assert add([11, 11, 11, 11, 11, 11]) == 44
+    assert add([12, 12, 12, 12, 12, 12]) == 48
+    assert add([13, 13, 13, 13, 13, 13]) == 52
+    assert add([14, 14, 14, 14, 14, 14]) == 56
+    assert add([15, 15, 15, 15, 15, 15]) == 60
+    assert add([16, 16, 16, 16, 16, 16]) == 64
+    assert add([17, 17, 17, 17, 17, 17]) == 68
+    assert add([18, 18, 18, 18, 18, 18]) == 72
+    assert add([19, 19, 19, 19, 19, 19]) == 76
+    assert add([20, 20, 20, 20, 20, 20]) == 80
+    assert add([21, 21, 21, 21, 21, 21]) == 84
+    assert add([22, 22, 22, 22, 22, 22]) == 88
+    assert add([23, 23, 23, 23, 23, 23]) == 92
+    assert add([24, 24, 24, 24, 24, 24]) == 96
+    assert add([25, 25, 25, 25, 25, 25]) == 100
+    assert add([26, 26, 26, 26, 26, 26]) == 104
+    assert add([27, 27, 27, 27, 27, 27]) == 108
+    assert add([28, 28, 28, 28, 28, 28]) == 112
+    assert add([29, 29, 29, 29, 29, 29]) == 116
+    assert add([30, 30, 30, 30, 30, 30]) == 120
+    assert add([31, 31, 31, 31, 31, 31]) == 124
+    assert add([32, 32, 32, 32, 32, 32]) == 128
+    assert add([33, 33, 33, 33, 33, 33]) == 132
+    assert add([34, 34, 34, 34, 34, 34]) == 136
+    assert add([35, 35, 35, 35, 35, 35]) == 140
+    assert add([36, 36, 36, 36, 36, 36]) == 144
+    assert add([37, 37, 37, 37, 37, 37]) == 148
+    assert add([38, 38, 38, 38, 38, 38]) == 152
+    assert add([39, 39, 39, 39, 39, 39]) == 156
+    assert add([40, 40, 40, 40, 40, 40]) == 160
+    assert add([41, 41, 41, 41, 41, 41]) == 164
+    assert add([42, 42, 42, 42, 42, 42]) == 168
+    assert add([43, 43, 43, 43, 43, 43]) == 172
+    assert add([44, 44, 44, 44, 44, 44]) == 176
+    assert add([45, 45, 45, 45, 45, 45]) == 180
+    assert add([46, 46, 46, 46, 46, 46]) == 184
+    assert add([47, 47, 47, 47, 47, 47]) == 188
+    assert add([48, 48, 48, 48, 48, 48]) == 192
+    assert add([49, 49, 49, 49, 49, 49]) == 196
+    assert add([50, 50, 50, 50, 50, 50]) == 200
+    assert add([51, 51, 51, 51, 51, 51]) == 204
+    assert add([52, 52, 52, 52, 52, 52]) == 208
+    assert add([53, 53, 53, 53, 53, 53]) == 212
+    assert add([54, 54, 54, 54, 54, 54]) == 216
+    assert add([55, 55, 55, 55, 55, 55]) == 220
+    assert add([56, 56, 56, 56, 56, 56]) == 224
+    assert add([57, 57, 57, 57, 57, 57]) == 228
+    assert add([58, 58, 58, 58, 58, 58]) == 232
+    assert add([59, 59, 59, 59, 59, 59]) == 236
+    assert add([60, 60, 60, 60, 60, 60]) == 240
+    assert add([61, 61, 61, 61, 61, 61]) == 244
+    assert add([62, 62, 62, 62, 62, 62]) == 248
+    assert add([63, 63, 63, 63, 63, 63]) == 252
+    assert add([64, 64, 64, 64, 64, 64]) == 256
+    assert add([65, 65, 65, 65, 65, 65]) == 260
+    assert add([66, 66, 66, 66, 66, 66]) == 264
+    assert add([67, 67, 67, 67, 67, 67]) == 268
+    assert add([68, 68, 68, 68, 68, 68]) == 272
+    assert add([69, 69, 69, 69, 69, 69]) == 276
+    assert add([70, 70, 70, 70, 70, 70]) == 280
+    assert add([71, 71, 71, 71, 71, 71]) == 284
+    assert add([72, 72, 72, 72, 72, 72]) == 288
+    assert add([73, 73, 73, 73, 73, 73]) == 29
+coverage:
+100.0Setting `pad_token_id` to `eos_token_id`:32021 for open-end generation.
+============================= test session starts ==============================
+platform linux -- Python 3.12.12, pytest-8.4.2, pluggy-1.6.0
+rootdir: /content/CS598JBR-Team-25/MP2
+plugins: cov-7.0.0, typeguard-4.4.4, langsmith-0.4.37, anyio-4.11.0
+collected 1 item
+
+Codes/HumanEval_148_test.py F                                            [100%]
+
+=================================== FAILURES ===================================
+___________________________________ test_bf ____________________________________
+
+    def test_bf():
+        assert bf("Jupiter", "Neptune") == ("Saturn", "Uranus")
+>       assert bf("Earth", "Mercury") == ("Venus")
+E       AssertionError: assert ('Venus',) == 'Venus'
+E        +  where ('Venus',) = bf('Earth', 'Mercury')
+
+Codes/HumanEval_148_test.py:6: AssertionError
+================================ tests coverage ================================
+_______________ coverage: platform linux, python 3.12.12-final-0 _______________
+
+Coverage JSON written to file Coverage/HumanEval_148_test_vanilla.json
+=========================== short test summary info ============================
+FAILED Codes/HumanEval_148_test.py::test_bf - AssertionError: assert ('Venus'...
+============================== 1 failed in 0.05s ===============================
+Setting `pad_token_id` to `eos_token_id`:32021 for open-end generation.
+============================= test session starts ==============================
+platform linux -- Python 3.12.12, pytest-8.4.2, pluggy-1.6.0
+rootdir: /content/CS598JBR-Team-25/MP2
+plugins: cov-7.0.0, typeguard-4.4.4, langsmith-0.4.37, anyio-4.11.0
+collected 0 items / 1 error
+
+==================================== ERRORS ====================================
+_________________ ERROR collecting Codes/HumanEval_64_test.py __________________
+/usr/local/lib/python3.12/dist-packages/_pytest/python.py:498: in importtestmodule
+    mod = import_path(
+/usr/local/lib/python3.12/dist-packages/_pytest/pathlib.py:587: in import_path
+    importlib.import_module(module_name)
+/usr/lib/python3.12/importlib/__init__.py:90: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+<frozen importlib._bootstrap>:1387: in _gcd_import
+    ???
+<frozen importlib._bootstrap>:1360: in _find_and_load
+    ???
+<frozen importlib._bootstrap>:1331: in _find_and_load_unlocked
+    ???
+<frozen importlib._bootstrap>:935: in _load_unlocked
+    ???
+/usr/local/lib/python3.12/dist-packages/_pytest/assertion/rewrite.py:177: in exec_module
+    source_stat, co = _rewrite_test(fn, self.config)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/usr/local/lib/python3.12/dist-packages/_pytest/assertion/rewrite.py:357: in _rewrite_test
+    tree = ast.parse(source, filename=strfn)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/usr/lib/python3.12/ast.py:52: in parse
+    return compile(source, filename, mode, flags,
+E     File "/content/CS598JBR-Team-25/MP2/Codes/HumanEval_64_test.py", line 141
+E       assert
+E             ^
+E   SyntaxError: invalid syntax
+=========================== short test summary info ============================
+ERROR Codes/HumanEval_64_test.py
+!!!!!!!!!!!!!!!!!!!! Interrupted: 1 error during collection !!!!!!!!!!!!!!!!!!!!
+=============================== 1 error in 0.35s ===============================
+
+Task_ID HumanEval/148:
+prompt:
+You are an AI programming assistant. You are an AI programming assistant, utilizing the DeepSeek Coder model, developed by DeepSeek Company, and you only answer questions related to computer science. For politically sensitive questions, security and privacy issues, and other non-computer science questions, you will refuse to answer.
+### Instruction:
+Generate a pytest test suite for the following code.
+Only write unit tests in the output and nothing else.
+
+def bf(planet1, planet2):
+    '''
+    There are eight planets in our solar system: the closerst to the Sun 
+    is Mercury, the next one is Venus, then Earth, Mars, Jupiter, Saturn, 
+    Uranus, Neptune.
+    Write a function that takes two planet names as strings planet1 and planet2. 
+    The function should return a tuple containing all planets whose orbits are 
+    located between the orbit of planet1 and the orbit of planet2, sorted by 
+    the proximity to the sun. 
+    The function should return an empty tuple if planet1 or planet2
+    are not correct planet names. 
+    Examples
+    bf("Jupiter", "Neptune") ==> ("Saturn", "Uranus")
+    bf("Earth", "Mercury") ==> ("Venus")
+    bf("Mercury", "Uranus") ==> ("Venus", "Earth", "Mars", "Jupiter", "Saturn")
+    '''
+
+    planet_names = ("Mercury", "Venus", "Earth", "Mars", "Jupiter", "Saturn", "Uranus", "Neptune")
+    if planet1 not in planet_names or planet2 not in planet_names or planet1 == planet2:
+        return ()
+    planet1_index = planet_names.index(planet1)
+    planet2_index = planet_names.index(planet2)
+    if planet1_index < planet2_index:
+        return (planet_names[planet1_index + 1: planet2_index])
+    else:
+        return (planet_names[planet2_index + 1 : planet1_index])
+
+
+### Response:
+
+response:
+import pytest
+
+def test_bf():
+    assert bf("Jupiter", "Neptune") == ("Saturn", "Uranus")
+    assert bf("Earth", "Mercury") == ("Venus")
+    assert bf("Mercury", "Uranus") == ("Venus", "Earth", "Mars", "Jupiter", "Saturn")
+    assert bf("Earth", "Earth") == ()
+    assert bf("Earth", "Pluto") == ()
+    assert bf("Pluto", "Earth") == ()
+    assert bf("Pluto", "Pluto") == ()
+coverage:
+88.89
+Task_ID HumanEval/64:
+prompt:
+You are an AI programming assistant. You are an AI programming assistant, utilizing the DeepSeek Coder model, developed by DeepSeek Company, and you only answer questions related to computer science. For politically sensitive questions, security and privacy issues, and other non-computer science questions, you will refuse to answer.
+### Instruction:
+Generate a pytest test suite for the following code.
+Only write unit tests in the output and nothing else.
+
+FIX = """
+Add more test cases.
+"""
+
+def vowels_count(s):
+    """Write a function vowels_count which takes a string representing
+    a word as input and returns the number of vowels in the string.
+    Vowels in this case are 'a', 'e', 'i', 'o', 'u'. Here, 'y' is also a
+    vowel, but only when it is at the end of the given word.
+
+    Example:
+    >>> vowels_count("abcde")
+    2
+    >>> vowels_count("ACEDY")
+    3
+    """
+
+    vowels = "aeiouAEIOU"
+    n_vowels = sum(c in vowels for c in s)
+    if s[-1] == 'y' or s[-1] == 'Y':
+        n_vowels += 1
+    return n_vowels
+
+
+### Response:
+
+response:
+def test_vowels_count():
+    assert vowels_count("abcde") == 2
+    assert vowels_count("ACEDY") == 3
+    assert vowels_count("") == 0
+    assert vowels_count("Y") == 1
+    assert vowels_count("y") == 1
+    assert vowels_count("Yo") == 1
+    assert vowels_count("Hello World") == 3
+    assert vowels_count("Rhythm") == 1
+    assert vowels_count("QUICK fox") == 2
+    assert vowels_count("OXYDIzE") == 3
+    assert vowels_count("JUMPED") == 2
+    assert vowels_count("JUMPEDY") == 3
+    assert vowels_count("JUMPEDYo") == 4
+    assert vowels_count("JUMPEDYO") == 4
+    assert vowels_count("JUMPEDYo") == 4
+    assert vowels_count("JUMPEDYOu") == 5
+    assert vowels_count("JUMPEDYOuR") == 6
+    assert vowels_count("JUMPEDYOuRs") == 6
+    assert vowels_count("JUMPEDYOuRs") == 6
+    assert vowels_count("JUMPEDYOuRs") == 6
+    assert vowels_count("JUMPEDYOuRs") == 6
+    assert vowels_count("JUMPEDYOuRs") == 6
+    assert vowels_count("JUMPEDYOuRs") == 6
+    assert vowels_count("JUMPEDYOuRs") == 6
+    assert vowels_count("JUMPEDYOuRs") == 6
+    assert vowels_count("JUMPEDYOuRs") == 6
+    assert vowels_count("JUMPEDYOuRs") == 6
+    assert vowels_count("JUMPEDYOuRs") == 6
+    assert vowels_count("JUMPEDYOuRs") == 6
+    assert vowels_count("JUMPEDYOuRs") == 6
+    assert vowels_count("JUMPEDYOuRs") == 6
+    assert vowels_count("JUMPEDYOuRs") == 6
+    assert vowels_count("JUMPEDYOuRs") == 6
+    assert vowels_count("JUMPEDYOuRs") == 6
+    assert vowels_count("JUMPEDYOuRs") == 6
+    assert vowels_count("JUMPEDYOuRs") == 6
+    assert vowels_count("JUMPEDYOuRs") == 6
+    assert vowels_count("JUMPEDYOuRs") == 6
+    assert vowels_count("JUMPEDYOuRs") == 6
+    assert vowels_count("JUMPEDYOuRs") == 6
+    assert vowels_count("JUMPEDYOuRs") == 6
+    assert vowels_count("JUMPEDYOuRs") == 6
+    assert vowels_count("JUMPEDYOuRs") == 6
+    assert vowels_count("JUMPEDYOuRs") == 6
+    assert vowels_count("JUMPEDYOuRs") == 6
+    assert vowels_count("JUMPEDYOuRs") == 6
+    assert vowels_count("JUMPEDYOuRs") == 6
+    assert vowels_count("JUMPEDYOuRs") == 6
+    assert vowels_count("JUMPEDYOuRs") == 6
+    assert vowels_count("JUMPEDYOuRs") == 6
+    assert vowels_count("JUMPEDYOuRs") == 6
+    assert vowels_count("JUMPEDYOuRs") == 6
+    assert vowels_count("JUMPEDYOuRs") == 6
+    assert vowels_count("JUMPEDYOuRs") == 6
+    assert vowels_count("JUMPEDYOuRs") == 6
+    assert vowels_count("JUMPEDYOuRs") == 6
+    assert vowels_count("JUMPEDYOuRs") == 6
+    assert vowels_count("JUMPEDYOuRs") == 6
+    assert vowels_count("JUMPEDYOuRs") == 6
+    assert vowels_count("JUMPEDYOuRs") == 6
+    assert vowels_count("JUMPEDYOuRs") == 6
+    assert vowels_count("JUMPEDYOuRs") == 6
+    assert vowels_count("JUMPEDYOuRs") == 6
+    assert vowels_count("JUMPEDYOuRs") == 6
+    assert vowels_count("JUMPEDYOuRs") == 6
+    assert vowels_count("JUMPEDYOuRs") == 6
+    assert vowels_count("JUMPEDYOuRs") == 6
+    assert vowels_count("JUMPEDYOuRs") == 6
+    assert vowels_count("JUMPEDYOuRs") == 6
+    assert vowels_count("JUMPEDYOuRs") == 6
+    assert vowels_count("JUMPEDYOuRs") == 6
+    assert vowels_count("JUMPEDYOuRs") == 6
+    assert vowels_count("JUMPEDYOuRs") == 6
+    assert vowels_count("JUMPEDYOuRs") == 6
+    assert vowels_count("JUMPEDYOuRs") == 6
+    assert vowels_count("JUMPEDYOuRs") == 6
+    assert vowels_count("JUMPEDYOuRs") == 6
+    assert vowels_count("JUMPEDYOuRs") == 6
+    assert vowels_count("JUMPEDYOuRs") == 6
+    assert vowels_count("JUMPEDYOuRs") == 6
+    assert vowels_count("JUMPEDYOuRs") == 6
+    assert vowels_count("JUMPEDYOuRs") == 6
+    assert vowels_count("JUMPEDYOuRs") == 6
+    assert vowels_count("JUMPEDYOuRs") == 6
+    assert vowels_count("JUMPEDYOuRs") == 6
+    assert vowels_count("JUMPEDYOuRs") == 6
+    assert vowels_count("JUMPEDYOuRs") == 6
+    assert vowels_count("JUMPEDYOuRs") == 6
+    assert vowels_count("JUMPEDYOuRs") == 6
+    assert vowels_count("JUMPEDYOuRs") == 6
+    assert vowels_count("JUMPEDYOuRs") == 6
+    assert vowels_count("JUMPEDYOuRs") == 6
+    assert vowels_count("JUMPEDYOuRs") == 6
+    assert vowels_count("JUMPEDYOuRs") == 6
+    assert vowels_count("JUMPEDYOuRs") == 6
+    assert vowels_count("JUMPEDYOuRs") == 6
+    assert vowels_count("JUMPEDYOuRs") == 6
+    assert vowels_count("JUMPEDYOuRs") == 6
+    assert vowels_count("JUMPEDYOuRs") == 6
+    assert vowels_count("JUMPEDYOuRs") == 6
+    assert vowels_count("JUMPEDYOuRs") == 6
+    assert vowels_count("JUMPEDYOuRs") == 6
+    assert vowels_count("JUMPEDYOuRs") == 6
+    assert vowels_count("JUMPEDYOuRs") == 6
+    assert vowels_count("JUMPEDYOuRs") == 6
+    assert vowels_count("JUMPEDYOuRs") == 6
+    assert vowels_count("JUMPEDYOuRs") == 6
+    assert vowels_count("JUMPEDYOuRs") == 6
+    assert vowels_count("JUMPEDYOuRs") == 6
+    assert vowels_count("JUMPEDYOuRs") == 6
+    assert vowels_count("JUMPEDYOuRs") == 6
+    assert vowels_count("JUMPEDYOuRs") == 6
+    assert vowels_count("JUMPEDYOuRs") == 6
+    assert vowels_count("JUMPEDYOuRs") == 6
+    assert vowels_count("JUMPEDYOuRs") == 6
+    assert vowels_count("JUMPEDYOuRs") == 6
+    assert vowels_count("JUMPEDYOuRs") == 6
+    assert vowels_count("JUMPEDYOuRs") == 6
+    assert vowels_count("JUMPEDYOuRs") == 6
+    assert vowels_count("JUMPEDYOuRs") == 6
+    assert vowels_count("JUMPEDYOuRs") == 6
+    assert vowels_count("JUMPEDYOuRs") == 6
+    assert vowels_count("JUMPEDYOuRs") == 6
+    assert vowels_count("JUMPEDYOuRs") == 6
+    assert vowels_count("JUMPEDYOuRs") == 6
+    assert vowels_count("JUMPEDYOuRs") == 6
+    assert vowels_count("JUMPEDYOuRs") == 6
+    assert vowels_count("JUMPEDYOuRs") == 6
+    assert vowels_count("JUMPEDYOuRs") == 6
+    assert vowels_count("JUMPEDYOuRs") == 6
+    assert vowels_count("JUMPEDYOuRs") == 6
+    assert vowels_count("JUMPEDYOuRs") == 6
+    assert vowels_count("JUMPEDYOuRs") == 6
+    assert vowels_count("JUMPEDYOuRs") == 6
+    assert vowels_count("JUMPEDYOuRs") == 6
+    assert vowels_count("JUMPEDYOuRs") == 6
+    assert vowels_count("JUMPEDYOuRs") == 6
+    assert vowels_count("JUMPEDYOuRs") == 6
+    assert
+coverage:
+0Setting `pad_token_id` to `eos_token_id`:32021 for open-end generation.
+============================= test session starts ==============================
+platform linux -- Python 3.12.12, pytest-8.4.2, pluggy-1.6.0
+rootdir: /content/CS598JBR-Team-25/MP2
+plugins: cov-7.0.0, typeguard-4.4.4, langsmith-0.4.37, anyio-4.11.0
+collected 1 item
+
+Codes/HumanEval_149_test.py F                                            [100%]
+
+=================================== FAILURES ===================================
+_____________________________ test_sorted_list_sum _____________________________
+
+    def test_sorted_list_sum():
+        assert sorted_list_sum(["aa", "a", "aaa"]) == ["aa"]
+        assert sorted_list_sum(["ab", "a", "aaa", "cd"]) == ["ab", "cd"]
+>       assert sorted_list_sum(["abc", "de", "fgh"]) == ["de", "fgh"]
+E       AssertionError: assert ['de'] == ['de', 'fgh']
+E         
+E         Right contains one more item: 'fgh'
+E         Use -v to get more diff
+
+Codes/HumanEval_149_test.py:7: AssertionError
+================================ tests coverage ================================
+_______________ coverage: platform linux, python 3.12.12-final-0 _______________
+
+Coverage JSON written to file Coverage/HumanEval_149_test_vanilla.json
+=========================== short test summary info ============================
+FAILED Codes/HumanEval_149_test.py::test_sorted_list_sum - AssertionError: as...
+============================== 1 failed in 0.06s ===============================
+Setting `pad_token_id` to `eos_token_id`:32021 for open-end generation.
+============================= test session starts ==============================
+platform linux -- Python 3.12.12, pytest-8.4.2, pluggy-1.6.0
+rootdir: /content/CS598JBR-Team-25/MP2
+plugins: cov-7.0.0, typeguard-4.4.4, langsmith-0.4.37, anyio-4.11.0
+collected 1 item
+
+Codes/HumanEval_13_test.py .                                             [100%]
+
+================================ tests coverage ================================
+_______________ coverage: platform linux, python 3.12.12-final-0 _______________
+
+Coverage JSON written to file Coverage/HumanEval_13_test_vanilla.json
+============================== 1 passed in 0.05s ===============================
+Setting `pad_token_id` to `eos_token_id`:32021 for open-end generation.
+============================= test session starts ==============================
+platform linux -- Python 3.12.12, pytest-8.4.2, pluggy-1.6.0
+rootdir: /content/CS598JBR-Team-25/MP2
+plugins: cov-7.0.0, typeguard-4.4.4, langsmith-0.4.37, anyio-4.11.0
+collected 1 item
+
+Codes/HumanEval_95_test.py .                                             [100%]
+
+================================ tests coverage ================================
+_______________ coverage: platform linux, python 3.12.12-final-0 _______________
+
+Coverage JSON written to file Coverage/HumanEval_95_test_vanilla.json
+============================== 1 passed in 0.05s ===============================
+Setting `pad_token_id` to `eos_token_id`:32021 for open-end generation.
+============================= test session starts ==============================
+platform linux -- Python 3.12.12, pytest-8.4.2, pluggy-1.6.0
+rootdir: /content/CS598JBR-Team-25/MP2
+plugins: cov-7.0.0, typeguard-4.4.4, langsmith-0.4.37, anyio-4.11.0
+collected 1 item
+
+Codes/HumanEval_126_test.py .                                            [100%]
+
+================================ tests coverage ================================
+_______________ coverage: platform linux, python 3.12.12-final-0 _______________
+
+Coverage JSON written to file Coverage/HumanEval_126_test_vanilla.json
+============================== 1 passed in 0.06s ===============================
+Setting `pad_token_id` to `eos_token_id`:32021 for open-end generation.
+============================= test session starts ==============================
+platform linux -- Python 3.12.12, pytest-8.4.2, pluggy-1.6.0
+rootdir: /content/CS598JBR-Team-25/MP2
+plugins: cov-7.0.0, typeguard-4.4.4, langsmith-0.4.37, anyio-4.11.0
+collected 1 item
+
+Codes/HumanEval_123_test.py F                                            [100%]
+
+=================================== FAILURES ===================================
+_____________________________ test_get_odd_collatz _____________________________
+
+    def test_get_odd_collatz():
+        assert get_odd_collatz(1) == [1]
+>       assert get_odd_collatz(2) == [1, 5]
+E       assert [1] == [1, 5]
+E         
+E         Right contains one more item: 5
+E         Use -v to get more diff
+
+Codes/HumanEval_123_test.py:6: AssertionError
+================================ tests coverage ================================
+_______________ coverage: platform linux, python 3.12.12-final-0 _______________
+
+Coverage JSON written to file Coverage/HumanEval_123_test_vanilla.json
+=========================== short test summary info ============================
+FAILED Codes/HumanEval_123_test.py::test_get_odd_collatz - assert [1] == [1, 5]
+============================== 1 failed in 0.10s ===============================
+
+Task_ID HumanEval/149:
+prompt:
+You are an AI programming assistant. You are an AI programming assistant, utilizing the DeepSeek Coder model, developed by DeepSeek Company, and you only answer questions related to computer science. For politically sensitive questions, security and privacy issues, and other non-computer science questions, you will refuse to answer.
+### Instruction:
+Generate a pytest test suite for the following code.
+Only write unit tests in the output and nothing else.
+
+def sorted_list_sum(lst):
+    """Write a function that accepts a list of strings as a parameter,
+    deletes the strings that have odd lengths from it,
+    and returns the resulted list with a sorted order,
+    The list is always a list of strings and never an array of numbers,
+    and it may contain duplicates.
+    The order of the list should be ascending by length of each word, and you
+    should return the list sorted by that rule.
+    If two words have the same length, sort the list alphabetically.
+    The function should return a list of strings in sorted order.
+    You may assume that all words will have the same length.
+    For example:
+    assert list_sort(["aa", "a", "aaa"]) => ["aa"]
+    assert list_sort(["ab", "a", "aaa", "cd"]) => ["ab", "cd"]
+    """
+
+    lst.sort()
+    new_lst = []
+    for i in lst:
+        if len(i)%2 == 0:
+            new_lst.append(i)
+    return sorted(new_lst, key=len)
+
+
+### Response:
+
+response:
+import pytest
+
+def test_sorted_list_sum():
+    assert sorted_list_sum(["aa", "a", "aaa"]) == ["aa"]
+    assert sorted_list_sum(["ab", "a", "aaa", "cd"]) == ["ab", "cd"]
+    assert sorted_list_sum(["abc", "de", "fgh"]) == ["de", "fgh"]
+    assert sorted_list_sum(["abc", "def", "ghi"]) == ["abc", "ghi"]
+    assert sorted_list_sum(["abc", "def", "ghi", "jkl"]) == ["def", "jkl"]
+    assert sorted_list_sum(["abc", "def", "ghi", "jkl", "mno"]) == ["ghi", "mno"]
+    assert sorted_list_sum(["abc", "def", "ghi", "jkl", "mno", "pqr"]) == ["jkl", "pqr"]
+coverage:
+100.0
+Task_ID HumanEval/13:
+prompt:
+You are an AI programming assistant. You are an AI programming assistant, utilizing the DeepSeek Coder model, developed by DeepSeek Company, and you only answer questions related to computer science. For politically sensitive questions, security and privacy issues, and other non-computer science questions, you will refuse to answer.
+### Instruction:
+Generate a pytest test suite for the following code.
+Only write unit tests in the output and nothing else.
+
+
+def greatest_common_divisor(a: int, b: int) -> int:
+    """ Return a greatest common divisor of two integers a and b
+    >>> greatest_common_divisor(3, 5)
+    1
+    >>> greatest_common_divisor(25, 15)
+    5
+    """
+
+    while b:
+        a, b = b, a % b
+    return a
+
+
+### Response:
+
+response:
+def test_greatest_common_divisor():
+    assert greatest_common_divisor(3, 5) == 1
+    assert greatest_common_divisor(25, 15) == 5
+    assert greatest_common_divisor(100, 50) == 50
+    assert greatest_common_divisor(17, 13) == 1
+    assert greatest_common_divisor(1, 1) == 1
+    assert greatest_common_divisor(0, 10) == 10
+    assert greatest_common_divisor(10, 0) == 10
+
+coverage:
+100.0
+Task_ID HumanEval/95:
+prompt:
+You are an AI programming assistant. You are an AI programming assistant, utilizing the DeepSeek Coder model, developed by DeepSeek Company, and you only answer questions related to computer science. For politically sensitive questions, security and privacy issues, and other non-computer science questions, you will refuse to answer.
+### Instruction:
+Generate a pytest test suite for the following code.
+Only write unit tests in the output and nothing else.
+
+def check_dict_case(dict):
+    """
+    Given a dictionary, return True if all keys are strings in lower 
+    case or all keys are strings in upper case, else return False.
+    The function should return False is the given dictionary is empty.
+    Examples:
+    check_dict_case({"a":"apple", "b":"banana"}) should return True.
+    check_dict_case({"a":"apple", "A":"banana", "B":"banana"}) should return False.
+    check_dict_case({"a":"apple", 8:"banana", "a":"apple"}) should return False.
+    check_dict_case({"Name":"John", "Age":"36", "City":"Houston"}) should return False.
+    check_dict_case({"STATE":"NC", "ZIP":"12345" }) should return True.
+    """
+
+    if len(dict.keys()) == 0:
+        return False
+    else:
+        state = "start"
+        for key in dict.keys():
+
+            if isinstance(key, str) == False:
+                state = "mixed"
+                break
+            if state == "start":
+                if key.isupper():
+                    state = "upper"
+                elif key.islower():
+                    state = "lower"
+                else:
+                    break
+            elif (state == "upper" and not key.isupper()) or (state == "lower" and not key.islower()):
+                    state = "mixed"
+                    break
+            else:
+                break
+        return state == "upper" or state == "lower" 
+
+
+### Response:
+
+response:
+import pytest
+
+def test_check_dict_case():
+    assert check_dict_case({"a":"apple", "b":"banana"}) == True
+    assert check_dict_case({"a":"apple", "A":"banana", "B":"banana"}) == False
+    assert check_dict_case({"a":"apple", 8:"banana", "a":"apple"}) == False
+    assert check_dict_case({"Name":"John", "Age":"36", "City":"Houston"}) == False
+    assert check_dict_case({"STATE":"NC", "ZIP":"12345" }) == True
+    assert check_dict_case({}) == False
+coverage:
+100.0
+Task_ID HumanEval/126:
+prompt:
+You are an AI programming assistant. You are an AI programming assistant, utilizing the DeepSeek Coder model, developed by DeepSeek Company, and you only answer questions related to computer science. For politically sensitive questions, security and privacy issues, and other non-computer science questions, you will refuse to answer.
+### Instruction:
+Generate a pytest test suite for the following code.
+Only write unit tests in the output and nothing else.
+
+def is_sorted(lst):
+    '''
+    Given a list of numbers, return whether or not they are sorted
+    in ascending order. If list has more than 1 duplicate of the same
+    number, return False. Assume no negative numbers and only integers.
+
+    Examples
+    is_sorted([5]) ➞ True
+    is_sorted([1, 2, 3, 4, 5]) ➞ True
+    is_sorted([1, 3, 2, 4, 5]) ➞ False
+    is_sorted([1, 2, 3, 4, 5, 6]) ➞ True
+    is_sorted([1, 2, 3, 4, 5, 6, 7]) ➞ True
+    is_sorted([1, 3, 2, 4, 5, 6, 7]) ➞ False
+    is_sorted([1, 2, 2, 3, 3, 4]) ➞ True
+    is_sorted([1, 2, 2, 2, 3, 4]) ➞ False
+    '''
+
+    count_digit = dict([(i, 0) for i in lst])
+    for i in lst:
+        count_digit[i]+=1 
+    if any(count_digit[i] > 2 for i in lst):
+        return False
+    if all(lst[i-1] <= lst[i] for i in range(1, len(lst))):
+        return True
+    else:
+        return False
+    
+    
+
+
+### Response:
+
+response:
+import pytest
+
+def test_is_sorted():
+    assert is_sorted([5]) == True
+    assert is_sorted([1, 2, 3, 4, 5]) == True
+    assert is_sorted([1, 3, 2, 4, 5]) == False
+    assert is_sorted([1, 2, 3, 4, 5, 6]) == True
+    assert is_sorted([1, 2, 3, 4, 5, 6, 7]) == True
+    assert is_sorted([1, 3, 2, 4, 5, 6, 7]) == False
+    assert is_sorted([1, 2, 2, 3, 3, 4]) == True
+    assert is_sorted([1, 2, 2, 2, 3, 4]) == False
+coverage:
+100.0
+Task_ID HumanEval/123:
+prompt:
+You are an AI programming assistant. You are an AI programming assistant, utilizing the DeepSeek Coder model, developed by DeepSeek Company, and you only answer questions related to computer science. For politically sensitive questions, security and privacy issues, and other non-computer science questions, you will refuse to answer.
+### Instruction:
+Generate a pytest test suite for the following code.
+Only write unit tests in the output and nothing else.
+
+def get_odd_collatz(n):
+    """
+    Given a positive integer n, return a sorted list that has the odd numbers in collatz sequence.
+
+    The Collatz conjecture is a conjecture in mathematics that concerns a sequence defined
+    as follows: start with any positive integer n. Then each term is obtained from the 
+    previous term as follows: if the previous term is even, the next term is one half of 
+    the previous term. If the previous term is odd, the next term is 3 times the previous
+    term plus 1. The conjecture is that no matter what value of n, the sequence will always reach 1.
+
+    Note: 
+        1. Collatz(1) is [1].
+        2. returned list sorted in increasing order.
+
+    For example:
+    get_odd_collatz(5) returns [1, 5] # The collatz sequence for 5 is [5, 16, 8, 4, 2, 1], so the odd numbers are only 1, and 5.
+    """
+
+    if n%2==0:
+        odd_collatz = [] 
+    else:
+        odd_collatz = [n]
+    while n > 1:
+        if n % 2 == 0:
+            n = n/2
+        else:
+            n = n*3 + 1
+            
+        if n%2 == 1:
+            odd_collatz.append(int(n))
+
+    return sorted(odd_collatz)
+
+
+### Response:
+
+response:
+import pytest
+
+def test_get_odd_collatz():
+    assert get_odd_collatz(1) == [1]
+    assert get_odd_collatz(2) == [1, 5]
+    assert get_odd_collatz(3) == [1, 5, 11]
+    assert get_odd_collatz(4) == [1, 5, 11, 15]
+    assert get_odd_collatz(5) == [1, 5]
+    assert get_odd_collatz(6) == [1, 5, 11, 15, 23]
+    assert get_odd_collatz(7) == [1, 5, 11, 15, 23, 40]
+    assert get_odd_collatz(8) == [1, 5, 11, 15, 23, 40, 44]
+    assert get_odd_collatz(9) == [1, 5, 11, 15, 23, 40, 44, 47]
+    assert get_odd_collatz(10) == [1, 5, 11, 15, 23, 40, 44, 47, 55]
+coverage:
+90.91Setting `pad_token_id` to `eos_token_id`:32021 for open-end generation.
+============================= test session starts ==============================
+platform linux -- Python 3.12.12, pytest-8.4.2, pluggy-1.6.0
+rootdir: /content/CS598JBR-Team-25/MP2
+plugins: cov-7.0.0, typeguard-4.4.4, langsmith-0.4.37, anyio-4.11.0
+collected 1 item
+
+Codes/HumanEval_162_test.py .                                            [100%]
+
+================================ tests coverage ================================
+_______________ coverage: platform linux, python 3.12.12-final-0 _______________
+
+Coverage JSON written to file Coverage/HumanEval_162_test_vanilla.json
+============================== 1 passed in 0.05s ===============================
+Setting `pad_token_id` to `eos_token_id`:32021 for open-end generation.
+============================= test session starts ==============================
+platform linux -- Python 3.12.12, pytest-8.4.2, pluggy-1.6.0
+rootdir: /content/CS598JBR-Team-25/MP2
+plugins: cov-7.0.0, typeguard-4.4.4, langsmith-0.4.37, anyio-4.11.0
+collected 1 item
+
+Codes/HumanEval_41_test.py .                                             [100%]
+
+================================ tests coverage ================================
+_______________ coverage: platform linux, python 3.12.12-final-0 _______________
+
+Coverage JSON written to file Coverage/HumanEval_41_test_vanilla.json
+============================== 1 passed in 0.06s ===============================
+Setting `pad_token_id` to `eos_token_id`:32021 for open-end generation.
+============================= test session starts ==============================
+platform linux -- Python 3.12.12, pytest-8.4.2, pluggy-1.6.0
+rootdir: /content/CS598JBR-Team-25/MP2
+plugins: cov-7.0.0, typeguard-4.4.4, langsmith-0.4.37, anyio-4.11.0
+collected 1 item
+
+Codes/HumanEval_21_test.py F                                             [100%]
+
+=================================== FAILURES ===================================
+_____________________________ test_rescale_to_unit _____________________________
+
+    def test_rescale_to_unit():
+        assert rescale_to_unit([1.0, 2.0, 3.0, 4.0, 5.0]) == [0.0, 0.25, 0.5, 0.75, 1.0]
+>       assert rescale_to_unit([0.0, 0.0, 0.0, 0.0, 0.0]) == [0.0, 0.0, 0.0, 0.0, 0.0]
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Codes/HumanEval_21_test.py:7: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+numbers = [0.0, 0.0, 0.0, 0.0, 0.0]
+
+    def rescale_to_unit(numbers: List[float]) -> List[float]:
+        """ Given list of numbers (of at least two elements), apply a linear transform to that list,
+        such that the smallest number will become 0 and the largest will become 1
+        >>> rescale_to_unit([1.0, 2.0, 3.0, 4.0, 5.0])
+        [0.0, 0.25, 0.5, 0.75, 1.0]
+        """
+    
+        min_number = min(numbers)
+        max_number = max(numbers)
+>       return [(x - min_number) / (max_number - min_number) for x in numbers]
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       ZeroDivisionError: float division by zero
+
+Codes/HumanEval_21.py:13: ZeroDivisionError
+================================ tests coverage ================================
+_______________ coverage: platform linux, python 3.12.12-final-0 _______________
+
+Coverage JSON written to file Coverage/HumanEval_21_test_vanilla.json
+=========================== short test summary info ============================
+FAILED Codes/HumanEval_21_test.py::test_rescale_to_unit - ZeroDivisionError: ...
+============================== 1 failed in 0.07s ===============================
+Setting `pad_token_id` to `eos_token_id`:32021 for open-end generation.
+============================= test session starts ==============================
+platform linux -- Python 3.12.12, pytest-8.4.2, pluggy-1.6.0
+rootdir: /content/CS598JBR-Team-25/MP2
+plugins: cov-7.0.0, typeguard-4.4.4, langsmith-0.4.37, anyio-4.11.0
+collected 1 item
+
+Codes/HumanEval_61_test.py .                                             [100%]
+
+================================ tests coverage ================================
+_______________ coverage: platform linux, python 3.12.12-final-0 _______________
+
+Coverage JSON written to file Coverage/HumanEval_61_test_vanilla.json
+============================== 1 passed in 0.05s ===============================
+Setting `pad_token_id` to `eos_token_id`:32021 for open-end generation.
+============================= test session starts ==============================
+platform linux -- Python 3.12.12, pytest-8.4.2, pluggy-1.6.0
+rootdir: /content/CS598JBR-Team-25/MP2
+plugins: cov-7.0.0, typeguard-4.4.4, langsmith-0.4.37, anyio-4.11.0
+collected 1 item
+
+Codes/HumanEval_97_test.py .                                             [100%]
+
+================================ tests coverage ================================
+_______________ coverage: platform linux, python 3.12.12-final-0 _______________
+
+Coverage JSON written to file Coverage/HumanEval_97_test_vanilla.json
+============================== 1 passed in 0.05s ===============================
+Setting `pad_token_id` to `eos_token_id`:32021 for open-end generation.
+============================= test session starts ==============================
+platform linux -- Python 3.12.12, pytest-8.4.2, pluggy-1.6.0
+rootdir: /content/CS598JBR-Team-25/MP2
+plugins: cov-7.0.0, typeguard-4.4.4, langsmith-0.4.37, anyio-4.11.0
+collected 1 item
+
+Codes/HumanEval_27_test.py F                                             [100%]
+
+=================================== FAILURES ===================================
+________________________________ test_flip_case ________________________________
+
+    def test_flip_case():
+        assert flip_case('Hello') == 'hELLO'
+        assert flip_case('hELLO') == 'Hello'
+        assert flip_case('TestING') == 'tESTing'
+        assert flip_case('') == ''
+        assert flip_case('12345') == '12345'  # no change in numbers
+>       assert flip_case('Special Chars!@#$%^&*()') == 'sPECIAL chars!@#$%^&*()'  # no change in special characters
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       AssertionError: assert 'sPECIAL cHARS!@#$%^&*()' == 'sPECIAL chars!@#$%^&*()'
+E         
+E         - sPECIAL chars!@#$%^&*()
+E         ?          ^^^^
+E         + sPECIAL cHARS!@#$%^&*()
+E         ?          ^^^^
+
+Codes/HumanEval_27_test.py:10: AssertionError
+================================ tests coverage ================================
+_______________ coverage: platform linux, python 3.12.12-final-0 _______________
+
+Coverage JSON written to file Coverage/HumanEval_27_test_vanilla.json
+=========================== short test summary info ============================
+FAILED Codes/HumanEval_27_test.py::test_flip_case - AssertionError: assert 's...
+============================== 1 failed in 0.06s ===============================
+Setting `pad_token_id` to `eos_token_id`:32021 for open-end generation.
+============================= test session starts ==============================
+platform linux -- Python 3.12.12, pytest-8.4.2, pluggy-1.6.0
+rootdir: /content/CS598JBR-Team-25/MP2
+plugins: cov-7.0.0, typeguard-4.4.4, langsmith-0.4.37, anyio-4.11.0
+collected 1 item
+
+Codes/HumanEval_1_test.py F                                              [100%]
+
+=================================== FAILURES ===================================
+__________________________ test_separate_paren_groups __________________________
+
+    def test_separate_paren_groups():
+        assert separate_paren_groups('( ) (( )) (( )( ))') == ['()', '(())', '(()())']
+        assert separate_paren_groups('((()))()(())') == ['((()))', '()', '(())']
+>       assert separate_paren_groups('()()()()()') == ['()', '()', '()', '()']
+E       AssertionError: assert ['()', '()', '()', '()', '()'] == ['()', '()', '()', '()']
+E         
+E         Left contains one more item: '()'
+E         Use -v to get more diff
+
+Codes/HumanEval_1_test.py:7: AssertionError
+================================ tests coverage ================================
+_______________ coverage: platform linux, python 3.12.12-final-0 _______________
+
+Coverage JSON written to file Coverage/HumanEval_1_test_vanilla.json
+=========================== short test summary info ============================
+FAILED Codes/HumanEval_1_test.py::test_separate_paren_groups - AssertionError...
+============================== 1 failed in 0.10s ===============================
+
+Task_ID HumanEval/162:
+prompt:
+You are an AI programming assistant. You are an AI programming assistant, utilizing the DeepSeek Coder model, developed by DeepSeek Company, and you only answer questions related to computer science. For politically sensitive questions, security and privacy issues, and other non-computer science questions, you will refuse to answer.
+### Instruction:
+Generate a pytest test suite for the following code.
+Only write unit tests in the output and nothing else.
+
+def string_to_md5(text):
+    """
+    Given a string 'text', return its md5 hash equivalent string.
+    If 'text' is an empty string, return None.
+
+    >>> string_to_md5('Hello world') == '3e25960a79dbc69b674cd4ec67a72c62'
+    """
+
+    import hashlib
+    return hashlib.md5(text.encode('ascii')).hexdigest() if text else None
+
+
+### Response:
+
+response:
+import pytest
+import hashlib
+
+def test_string_to_md5():
+    assert string_to_md5('Hello world') == hashlib.md5('Hello world'.encode('ascii')).hexdigest()
+    assert string_to_md5('') is None
+    assert string_to_md5('Test') == hashlib.md5('Test'.encode('ascii')).hexdigest()
+    assert string_to_md5('1234567890') == hashlib.md5('1234567890'.encode('ascii')).hexdigest()
+    assert string_to_md5(' ') == hashlib.md5(' '.encode('ascii')).hexdigest()
+coverage:
+100.0
+Task_ID HumanEval/41:
+prompt:
+You are an AI programming assistant. You are an AI programming assistant, utilizing the DeepSeek Coder model, developed by DeepSeek Company, and you only answer questions related to computer science. For politically sensitive questions, security and privacy issues, and other non-computer science questions, you will refuse to answer.
+### Instruction:
+Generate a pytest test suite for the following code.
+Only write unit tests in the output and nothing else.
+
+
+def car_race_collision(n: int):
+    """
+    Imagine a road that's a perfectly straight infinitely long line.
+    n cars are driving left to right;  simultaneously, a different set of n cars
+    are driving right to left.   The two sets of cars start out being very far from
+    each other.  All cars move in the same speed.  Two cars are said to collide
+    when a car that's moving left to right hits a car that's moving right to left.
+    However, the cars are infinitely sturdy and strong; as a result, they continue moving
+    in their trajectory as if they did not collide.
+
+    This function outputs the number of such collisions.
+    """
+
+    return n**2
+
+
+### Response:
+
+response:
+import pytest
+
+def test_car_race_collision():
+    assert car_race_collision(0) == 0
+    assert car_race_collision(1) == 1
+    assert car_race_collision(2) == 4
+    assert car_race_collision(3) == 9
+    assert car_race_collision(10) == 100
+coverage:
+100.0
+Task_ID HumanEval/21:
+prompt:
+You are an AI programming assistant. You are an AI programming assistant, utilizing the DeepSeek Coder model, developed by DeepSeek Company, and you only answer questions related to computer science. For politically sensitive questions, security and privacy issues, and other non-computer science questions, you will refuse to answer.
+### Instruction:
+Generate a pytest test suite for the following code.
+Only write unit tests in the output and nothing else.
+from typing import List
+
+
+def rescale_to_unit(numbers: List[float]) -> List[float]:
+    """ Given list of numbers (of at least two elements), apply a linear transform to that list,
+    such that the smallest number will become 0 and the largest will become 1
+    >>> rescale_to_unit([1.0, 2.0, 3.0, 4.0, 5.0])
+    [0.0, 0.25, 0.5, 0.75, 1.0]
+    """
+
+    min_number = min(numbers)
+    max_number = max(numbers)
+    return [(x - min_number) / (max_number - min_number) for x in numbers]
+
+
+### Response:
+
+response:
+import pytest
+
+
+def test_rescale_to_unit():
+    assert rescale_to_unit([1.0, 2.0, 3.0, 4.0, 5.0]) == [0.0, 0.25, 0.5, 0.75, 1.0]
+    assert rescale_to_unit([0.0, 0.0, 0.0, 0.0, 0.0]) == [0.0, 0.0, 0.0, 0.0, 0.0]
+    assert rescale_to_unit([10.0, 20.0, 30.0, 40.0, 50.0]) == [0.0, 0.25, 0.5, 0.75, 1.0]
+    assert rescale_to_unit([-1.0, -2.0, -3.0, -4.0, -5.0]) == [0.0, 0.25, 0.5, 0.75, 1.0]
+    assert rescale_to_unit([1.0, 1.0, 1.0, 1.0, 1.0]) == [0.0, 0.0, 0.0, 0.0, 0.0]
+coverage:
+100.0
+Task_ID HumanEval/61:
+prompt:
+You are an AI programming assistant. You are an AI programming assistant, utilizing the DeepSeek Coder model, developed by DeepSeek Company, and you only answer questions related to computer science. For politically sensitive questions, security and privacy issues, and other non-computer science questions, you will refuse to answer.
+### Instruction:
+Generate a pytest test suite for the following code.
+Only write unit tests in the output and nothing else.
+
+
+def correct_bracketing(brackets: str):
+    """ brackets is a string of "(" and ")".
+    return True if every opening bracket has a corresponding closing bracket.
+
+    >>> correct_bracketing("(")
+    False
+    >>> correct_bracketing("()")
+    True
+    >>> correct_bracketing("(()())")
+    True
+    >>> correct_bracketing(")(()")
+    False
+    """
+
+    depth = 0
+    for b in brackets:
+        if b == "(":
+            depth += 1
+        else:
+            depth -= 1
+        if depth < 0:
+            return False
+    return depth == 0
+
+
+### Response:
+
+response:
+def test_correct_bracketing():
+    assert correct_bracketing("(") == False
+    assert correct_bracketing("()") == True
+    assert correct_bracketing("(()())") == True
+    assert correct_bracketing(")(()") == False
+
+coverage:
+100.0
+Task_ID HumanEval/97:
+prompt:
+You are an AI programming assistant. You are an AI programming assistant, utilizing the DeepSeek Coder model, developed by DeepSeek Company, and you only answer questions related to computer science. For politically sensitive questions, security and privacy issues, and other non-computer science questions, you will refuse to answer.
+### Instruction:
+Generate a pytest test suite for the following code.
+Only write unit tests in the output and nothing else.
+
+def multiply(a, b):
+    """Complete the function that takes two integers and returns 
+    the product of their unit digits.
+    Assume the input is always valid.
+    Examples:
+    multiply(148, 412) should return 16.
+    multiply(19, 28) should return 72.
+    multiply(2020, 1851) should return 0.
+    multiply(14,-15) should return 20.
+    """
+
+    return abs(a % 10) * abs(b % 10)
+
+
+### Response:
+
+response:
+def test_multiply():
+    assert multiply(148, 412) == 16
+    assert multiply(19, 28) == 72
+    assert multiply(2020, 1851) == 0
+    assert multiply(14, -15) == 20
+
+coverage:
+100.0
+Task_ID HumanEval/27:
+prompt:
+You are an AI programming assistant. You are an AI programming assistant, utilizing the DeepSeek Coder model, developed by DeepSeek Company, and you only answer questions related to computer science. For politically sensitive questions, security and privacy issues, and other non-computer science questions, you will refuse to answer.
+### Instruction:
+Generate a pytest test suite for the following code.
+Only write unit tests in the output and nothing else.
+
+
+def flip_case(string: str) -> str:
+    """ For a given string, flip lowercase characters to uppercase and uppercase to lowercase.
+    >>> flip_case('Hello')
+    'hELLO'
+    """
+
+    return string.swapcase()
+
+
+### Response:
+
+response:
+import pytest
+
+def test_flip_case():
+    assert flip_case('Hello') == 'hELLO'
+    assert flip_case('hELLO') == 'Hello'
+    assert flip_case('TestING') == 'tESTing'
+    assert flip_case('') == ''
+    assert flip_case('12345') == '12345'  # no change in numbers
+    assert flip_case('Special Chars!@#$%^&*()') == 'sPECIAL chars!@#$%^&*()'  # no change in special characters
+coverage:
+100.0
+Task_ID HumanEval/1:
+prompt:
+You are an AI programming assistant. You are an AI programming assistant, utilizing the DeepSeek Coder model, developed by DeepSeek Company, and you only answer questions related to computer science. For politically sensitive questions, security and privacy issues, and other non-computer science questions, you will refuse to answer.
+### Instruction:
+Generate a pytest test suite for the following code.
+Only write unit tests in the output and nothing else.
+from typing import List
+
+
+def separate_paren_groups(paren_string: str) -> List[str]:
+    """ Input to this function is a string containing multiple groups of nested parentheses. Your goal is to
+    separate those group into separate strings and return the list of those.
+    Separate groups are balanced (each open brace is properly closed) and not nested within each other
+    Ignore any spaces in the input string.
+    >>> separate_paren_groups('( ) (( )) (( )( ))')
+    ['()', '(())', '(()())']
+    """
+
+    result = []
+    current_string = []
+    current_depth = 0
+
+    for c in paren_string:
+        if c == '(':
+            current_depth += 1
+            current_string.append(c)
+        elif c == ')':
+            current_depth -= 1
+            current_string.append(c)
+
+            if current_depth == 0:
+                result.append(''.join(current_string))
+                current_string.clear()
+
+    return result
+
+
+### Response:
+
+response:
+import pytest
+
+def test_separate_paren_groups():
+    assert separate_paren_groups('( ) (( )) (( )( ))') == ['()', '(())', '(()())']
+    assert separate_paren_groups('((()))()(())') == ['((()))', '()', '(())']
+    assert separate_paren_groups('()()()()()') == ['()', '()', '()', '()']
+    assert separate_paren_groups('((())())') == ['((())())']
+    assert separate_paren_groups('') == []
+    assert separate_paren_groups(' ') == []
+    assert separate_paren_groups('((') == ['((']
+    assert separate_paren_groups('))') == [')']
+    assert separate_paren_groups('(()()()())') == ['(()()()())']
+coverage:
+100.0Setting `pad_token_id` to `eos_token_id`:32021 for open-end generation.
+============================= test session starts ==============================
+platform linux -- Python 3.12.12, pytest-8.4.2, pluggy-1.6.0
+rootdir: /content/CS598JBR-Team-25/MP2
+plugins: cov-7.0.0, typeguard-4.4.4, langsmith-0.4.37, anyio-4.11.0
+collected 1 item
+
+Codes/HumanEval_68_test.py .                                             [100%]
+
+================================ tests coverage ================================
+_______________ coverage: platform linux, python 3.12.12-final-0 _______________
+
+Coverage JSON written to file Coverage/HumanEval_68_test_vanilla.json
+============================== 1 passed in 0.05s ===============================
+Setting `pad_token_id` to `eos_token_id`:32021 for open-end generation.
+============================= test session starts ==============================
+platform linux -- Python 3.12.12, pytest-8.4.2, pluggy-1.6.0
+rootdir: /content/CS598JBR-Team-25/MP2
+plugins: cov-7.0.0, typeguard-4.4.4, langsmith-0.4.37, anyio-4.11.0
+collected 1 item
+
+Codes/HumanEval_150_test.py F                                            [100%]
+
+=================================== FAILURES ===================================
+_________________________________ test_x_or_y __________________________________
+
+    def test_x_or_y():
+        assert x_or_y(7, 34, 12) == 34
+        assert x_or_y(15, 8, 5) == 5
+        assert x_or_y(2, 100, 200) == 100
+        assert x_or_y(3, 500, 1000) == 500
+        assert x_or_y(4, 10, 20) == 20
+        assert x_or_y(5, 25, 50) == 25
+>       assert x_or_y(6, 100, 200) == 100
+E       assert 200 == 100
+E        +  where 200 = x_or_y(6, 100, 200)
+
+Codes/HumanEval_150_test.py:9: AssertionError
+================================ tests coverage ================================
+_______________ coverage: platform linux, python 3.12.12-final-0 _______________
+
+Coverage JSON written to file Coverage/HumanEval_150_test_vanilla.json
+=========================== short test summary info ============================
+FAILED Codes/HumanEval_150_test.py::test_x_or_y - assert 200 == 100
+============================== 1 failed in 0.07s ===============================
+Setting `pad_token_id` to `eos_token_id`:32021 for open-end generation.
+============================= test session starts ==============================
+platform linux -- Python 3.12.12, pytest-8.4.2, pluggy-1.6.0
+rootdir: /content/CS598JBR-Team-25/MP2
+plugins: cov-7.0.0, typeguard-4.4.4, langsmith-0.4.37, anyio-4.11.0
+collected 1 item
+
+Codes/HumanEval_112_test.py .                                            [100%]
+
+================================ tests coverage ================================
+_______________ coverage: platform linux, python 3.12.12-final-0 _______________
+
+Coverage JSON written to file Coverage/HumanEval_112_test_vanilla.json
+============================== 1 passed in 0.05s ===============================
+
+Task_ID HumanEval/68:
+prompt:
+You are an AI programming assistant. You are an AI programming assistant, utilizing the DeepSeek Coder model, developed by DeepSeek Company, and you only answer questions related to computer science. For politically sensitive questions, security and privacy issues, and other non-computer science questions, you will refuse to answer.
+### Instruction:
+Generate a pytest test suite for the following code.
+Only write unit tests in the output and nothing else.
+
+def pluck(arr):
+    """
+    "Given an array representing a branch of a tree that has non-negative integer nodes
+    your task is to pluck one of the nodes and return it.
+    The plucked node should be the node with the smallest even value.
+    If multiple nodes with the same smallest even value are found return the node that has smallest index.
+
+    The plucked node should be returned in a list, [ smalest_value, its index ],
+    If there are no even values or the given array is empty, return [].
+
+    Example 1:
+        Input: [4,2,3]
+        Output: [2, 1]
+        Explanation: 2 has the smallest even value, and 2 has the smallest index.
+
+    Example 2:
+        Input: [1,2,3]
+        Output: [2, 1]
+        Explanation: 2 has the smallest even value, and 2 has the smallest index. 
+
+    Example 3:
+        Input: []
+        Output: []
+    
+    Example 4:
+        Input: [5, 0, 3, 0, 4, 2]
+        Output: [0, 1]
+        Explanation: 0 is the smallest value, but  there are two zeros,
+                     so we will choose the first zero, which has the smallest index.
+
+    Constraints:
+        * 1 <= nodes.length <= 10000
+        * 0 <= node.value
+    """
+
+    if(len(arr) == 0): return []
+    evens = list(filter(lambda x: x%2 == 0, arr))
+    if(evens == []): return []
+    return [min(evens), arr.index(min(evens))]
+
+
+### Response:
+
+response:
+import pytest
+
+def test_pluck():
+    assert pluck([4, 2, 3]) == [2, 1]
+    assert pluck([1, 2, 3]) == [2, 1]
+    assert pluck([]) == []
+    assert pluck([5, 0, 3, 0, 4, 2]) == [0, 1]
+    assert pluck([0, 1, 3, 1, 4, 2]) == [0, 0]  # test for multiple smallest values
+    assert pluck([1, 3, 5, 7, 9]) == []  # test for no even values
+coverage:
+100.0
+Task_ID HumanEval/150:
+prompt:
+You are an AI programming assistant. You are an AI programming assistant, utilizing the DeepSeek Coder model, developed by DeepSeek Company, and you only answer questions related to computer science. For politically sensitive questions, security and privacy issues, and other non-computer science questions, you will refuse to answer.
+### Instruction:
+Generate a pytest test suite for the following code.
+Only write unit tests in the output and nothing else.
+
+def x_or_y(n, x, y):
+    """A simple program which should return the value of x if n is 
+    a prime number and should return the value of y otherwise.
+
+    Examples:
+    for x_or_y(7, 34, 12) == 34
+    for x_or_y(15, 8, 5) == 5
+    
+    """
+
+    if n == 1:
+        return y
+    for i in range(2, n):
+        if n % i == 0:
+            return y
+            break
+    else:
+        return x
+
+
+### Response:
+
+response:
+def test_x_or_y():
+    assert x_or_y(7, 34, 12) == 34
+    assert x_or_y(15, 8, 5) == 5
+    assert x_or_y(2, 100, 200) == 100
+    assert x_or_y(3, 500, 1000) == 500
+    assert x_or_y(4, 10, 20) == 20
+    assert x_or_y(5, 25, 50) == 25
+    assert x_or_y(6, 100, 200) == 100
+    assert x_or_y(8, 50, 100) == 50
+    assert x_or_y(9, 1000, 2000) == 1000
+    assert x_or_y(10, 50, 100) == 100
+    assert x_or_y(11, 1000, 2000) == 1000
+
+coverage:
+85.71
+Task_ID HumanEval/112:
+prompt:
+You are an AI programming assistant. You are an AI programming assistant, utilizing the DeepSeek Coder model, developed by DeepSeek Company, and you only answer questions related to computer science. For politically sensitive questions, security and privacy issues, and other non-computer science questions, you will refuse to answer.
+### Instruction:
+Generate a pytest test suite for the following code.
+Only write unit tests in the output and nothing else.
+
+def reverse_delete(s,c):
+    """Task
+    We are given two strings s and c, you have to deleted all the characters in s that are equal to any character in c
+    then check if the result string is palindrome.
+    A string is called palindrome if it reads the same backward as forward.
+    You should return a tuple containing the result string and True/False for the check.
+    Example
+    For s = "abcde", c = "ae", the result should be ('bcd',False)
+    For s = "abcdef", c = "b"  the result should be ('acdef',False)
+    For s = "abcdedcba", c = "ab", the result should be ('cdedc',True)
+    """
+
+    s = ''.join([char for char in s if char not in c])
+    return (s,s[::-1] == s)
+
+
+### Response:
+
+response:
+import pytest
+
+def test_reverse_delete():
+    assert reverse_delete("abcde", "ae") == ("bcd", False)
+    assert reverse_delete("abcdef", "b") == ("acdef", False)
+    assert reverse_delete("abcdedcba", "ab") == ("cdedc", True)
+    assert reverse_delete("", "ae") == ("", True)  # test with empty string
+    assert reverse_delete("abcde", "") == ("abcde", False)  # test with empty characters to remove
+coverage:
+100.0
