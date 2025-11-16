@@ -58,16 +58,15 @@ def prompt_model(dataset, model_name = "deepseek-ai/deepseek-coder-6.7b-instruct
         python_code = (entry.get("prompt", "") or "") + (entry.get("canonical_solution", "") or "")
 
         if vanilla:
-            prompt = (
-"""You are an AI programming assistant utilizing the DeepSeek Coder model, developed by DeepSeek Company, 
+            prompt =f"""You are an AI programming assistant utilizing the DeepSeek Coder model, developed by DeepSeek Company, 
 and you only answer questions related to computer science. For politically sensitive questions, 
 security and privacy issues, and other non-computer science questions, you will refuse to answer.
 
 ### Instruction:
 Can you translate the following Python code into Java?
 The new Java code must be enclosed between [Java Start] and [Java End]
-f"{python_code}"
-### Response:""")
+{python_code}
+### Response:"""
             
         else:
             continue
