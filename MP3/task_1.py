@@ -29,7 +29,7 @@ def evaluate_java(java_code, java_test, task_id):
         return False
 
 
-def prompt_model(dataset, model_name = "deepseek-ai/deepseek-coder-6.7b-instruct", vanilla = True):
+def prompt_model(dataset, model_name = "deepseek-ai/deepseek-coder-6.7b-instruct", vanilla = True, target_dataset=None):
     print(f"Working with {model_name} prompt type {vanilla}...")
     
     # TODO: download the model
@@ -49,6 +49,13 @@ def prompt_model(dataset, model_name = "deepseek-ai/deepseek-coder-6.7b-instruct
     )
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     model.to(device)
+
+    java_tests_map = {}
+    if target_dataset is not None:
+        for j in target_dataset:
+            tid = j.get("task_id", "")
+            key = tid.split("/")[-1] if "/" in tid else tid
+            java_tests_map[key] = j.get("test", "")
 
     results = []
     for entry in dataset:
@@ -81,7 +88,7 @@ The new Java code must be enclosed between [Java Start] and [Java End]
 - Output ONLY Java code, no explanations.
 - Do NOT use Markdown code fences (no ```java, no ```).
 - Do NOT define any class named Main.
-- Define a public class Solution and put all translated methods inside it.
+- Define a class Solution and put all translated methods inside it.
 - The final output MUST be exactly in this format:
 
 [Java Start]
@@ -110,14 +117,26 @@ The new Java code must be enclosed between [Java Start] and [Java End]
         start_tag = "[Java Start]"
         end_tag = "[Java End]"
         if start_tag in response and end_tag in response:
-            java_code = response.split(start_tag, 1)[1].split(end_tag, 1)[0]
+            java_code = response.split(start_tag, 1)[1].split(end_tag, 1)[0].strip()
+
+
+        if "public class Solution" in java_code:
+            java_code = java_code.replace("public class Solution", "class Solution")
 
         if "class Solution" not in java_code:
             java_code = "class Solution {\n" + java_code + "\n}\n"
 
+
         java_test = entry["test"] if "test" in entry else ""
         verdict = evaluate_java(java_code, java_test, entry.get("task_id", ""))
 
+        task_id_raw = entry.get("task_id", "")
+        task_key = task_id_raw.split("/")[-1] if "/" in task_id_raw else task_id_raw
+
+        if task_key in java_tests_map:
+            java_test = java_tests_map[task_key]
+        else:
+            java_test = entry["test"] if "test" in entry else ""
 
 
         print(f"Task_ID {entry['task_id']}:\nprompt:\n{prompt}\nresponse:\n{response}\nis_expected:\n{verdict}")
@@ -172,5 +191,13 @@ if __name__ == "__main__":
     vanilla = True if if_vanilla == "True" else False
     
     dataset = read_jsonl(input_dataset)
-    results = prompt_model(dataset, model, vanilla)
+    target_dataset = None
+    if "python" in input_dataset and "java" not in input_dataset:
+        java_dataset_path = input_dataset.replace("python", "java")
+        if os.path.exists(java_dataset_path):
+            target_dataset = read_jsonl(java_dataset_path)
+        else:
+            print(f"Warning: Java dataset file {java_dataset_path} not found. Falling back to tests in {input_dataset}.")
+
+    results = prompt_model(dataset, model, vanilla, target_dataset)
     write_jsonl(results, output_file)
