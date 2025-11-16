@@ -69,7 +69,30 @@ The new Java code must be enclosed between [Java Start] and [Java End]
 ### Response:"""
             
         else:
-            continue
+            prompt = f"""You are an AI programming assistant utilizing the DeepSeek Coder model, developed by DeepSeek Company, 
+and you only answer questions related to computer science. For politically sensitive questions, 
+security and privacy issues, and other non-computer science questions, you will refuse to answer.
+
+### Instruction:
+Can you translate the following Python code into Java?
+The new Java code must be enclosed between [Java Start] and [Java End]
+
+### Requirements
+- Output ONLY Java code, no explanations.
+- Do NOT use Markdown code fences (no ```java, no ```).
+- Do NOT define any class named Main.
+- Define a public class Solution and put all translated methods inside it.
+- The final output MUST be exactly in this format:
+
+[Java Start]
+<your Java code for class Solution only>
+[Java End]
+
+### Python code:
+{python_code}
+
+### Response:
+"""
 
         inputs = tokenizer(prompt, return_tensors="pt").to(model.device)
         with torch.no_grad():
@@ -81,12 +104,14 @@ The new Java code must be enclosed between [Java Start] and [Java End]
         decoded = tokenizer.decode(output_ids[0], skip_special_tokens=True)
         if decoded.startswith(prompt):
             decoded = decoded[len(prompt):]
+
         response = decoded.strip()
         java_code = response
         start_tag = "[Java Start]"
         end_tag = "[Java End]"
         if start_tag in response and end_tag in response:
-            java_code = response.split(start_tag, 1)[1].split(end_tag, 1)[0].strip()
+            java_code = response.split(start_tag, 1)[1].split(end_tag, 1)[0]
+
         if "class Solution" not in java_code:
             java_code = "class Solution {\n" + java_code + "\n}\n"
 
