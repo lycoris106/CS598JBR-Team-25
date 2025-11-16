@@ -12,14 +12,21 @@ import tempfile
 
 def save_file(content, file_path):
     with open(file_path, 'w') as file:
-        file.write(content)
-
+        file.write(content) 
+    
 def evaluate_java(java_code, java_test, task_id):
     if not (java_test and "public class Main" in java_test):
         return False
     try:
         with tempfile.TemporaryDirectory() as tmpdir:
-            src = f"import java.util.*;\nimport java.lang.*;\n\n{java_code}\n\n{java_test}\n"
+            src = (
+                "import java.util.*;\n"
+                "import java.lang.*;\n"
+                "import java.math.*;\n"
+                "import java.security.*;\n"
+                "\n"
+                f"{java_code}\n\n{java_test}\n"
+            )
             open(os.path.join(tmpdir, "Main.java"), "w").write(src)
             if subprocess.run(["javac", "Main.java"], cwd=tmpdir).returncode != 0:
                 return False
@@ -27,6 +34,7 @@ def evaluate_java(java_code, java_test, task_id):
     except Exception as e:
         print(f"Error evaluating task {task_id}: {e}")
         return False
+
 
 
 def prompt_model(dataset, model_name = "deepseek-ai/deepseek-coder-6.7b-instruct", vanilla = True, target_dataset=None):
@@ -49,13 +57,16 @@ def prompt_model(dataset, model_name = "deepseek-ai/deepseek-coder-6.7b-instruct
     )
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     model.to(device)
+    
 
     java_tests_map = {}
+    java_decl_map = {}
     if target_dataset is not None:
         for j in target_dataset:
             tid = j.get("task_id", "")
             key = tid.split("/")[-1] if "/" in tid else tid
             java_tests_map[key] = j.get("test", "")
+            java_decl_map[key] = j.get("declaration", "")
 
     results = []
     for entry in dataset:
@@ -63,6 +74,10 @@ def prompt_model(dataset, model_name = "deepseek-ai/deepseek-coder-6.7b-instruct
         # Tip : Use can use any data from the dataset to create 
         #       the prompt including prompt, canonical_solution, test, etc.
         python_code = (entry.get("prompt", "") or "") + (entry.get("canonical_solution", "") or "")
+
+        task_id_raw = entry.get("task_id", "")
+        task_key = task_id_raw.split("/")[-1] if "/" in task_id_raw else task_id_raw
+        java_decl = java_decl_map.get(task_key, "")
 
         if vanilla:
             prompt =f"""You are an AI programming assistant utilizing the DeepSeek Coder model, developed by DeepSeek Company, 
