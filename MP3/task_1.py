@@ -104,6 +104,12 @@ The new Java code must be enclosed between [Java Start] and [Java End]
 - Do NOT use Markdown code fences (no ```java, no ```).
 - Do NOT define any class named Main.
 - Define a class Solution and put all translated methods inside it.
+- Use the following Java method declaration exactly (do NOT change parameter types, modifiers, or return type):
+{java_decl}
+- Preserve the original Python logic exactly; do NOT rewrite or simplify the algorithm.
+- Make sure all opened braces {{ and }} and parentheses () are closed.
+- Output a full, compilable Java class Solution and do NOT output anything after [Java End].
+
 - The final output MUST be exactly in this format:
 
 [Java Start]
@@ -143,9 +149,6 @@ The new Java code must be enclosed between [Java Start] and [Java End]
 
 
         java_test = entry["test"] if "test" in entry else ""
-
-        task_id_raw = entry.get("task_id", "")
-        task_key = task_id_raw.split("/")[-1] if "/" in task_id_raw else task_id_raw
 
         if task_key in java_tests_map:
             java_test = java_tests_map[task_key]
