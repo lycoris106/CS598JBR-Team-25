@@ -128,7 +128,6 @@ The new Java code must be enclosed between [Java Start] and [Java End]
 
 
         java_test = entry["test"] if "test" in entry else ""
-        verdict = evaluate_java(java_code, java_test, entry.get("task_id", ""))
 
         task_id_raw = entry.get("task_id", "")
         task_key = task_id_raw.split("/")[-1] if "/" in task_id_raw else task_id_raw
@@ -137,6 +136,8 @@ The new Java code must be enclosed between [Java Start] and [Java End]
             java_test = java_tests_map[task_key]
         else:
             java_test = entry["test"] if "test" in entry else ""
+        
+        verdict = evaluate_java(java_code, java_test, entry.get("task_id", ""))
 
 
         print(f"Task_ID {entry['task_id']}:\nprompt:\n{prompt}\nresponse:\n{response}\nis_expected:\n{verdict}")
