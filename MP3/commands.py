@@ -3,11 +3,14 @@
 ###################################################################
 
 # TODO: Clone your GitHub repository
-! git clone [Your GitHub Link]
-%cd [Your GitHub Repo]/MP3
+%rm -rf /content/CS598JBR-Team-25
+%cd /content
+! git clone https://github.com/lycoris106/CS598JBR-Team-25.git
+%cd CS598JBR-Team-25/MP3
+
 
 # TODO: Update seed generated in MP1
-seed = "[your_seed]"
+seed = "90448446955918181667013849996020113420"
 
 humaneval_input_dataset = "selected_humaneval_" + seed + ".jsonl"
 

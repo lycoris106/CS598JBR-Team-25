@@ -7,15 +7,102 @@ from transformers import AutoTokenizer, AutoModelForCausalLM, BitsAndBytesConfig
 # Please finish all TODOs in this file for MP3/task_2;
 #####################################################
 
+import re
+import random
+
 def save_file(content, file_path):
     with open(file_path, 'w') as file:
         file.write(content)
+
+def parse_response(response):
+    patterns = [
+        r'<verdict>\s*(Buggy|Correct)\s*</verdict>',
+        r'<verdict>\s*(buggy|correct)\s*</verdict>',
+        r'<verdict>\s*(Buggy|Correct)\s*<verdict>',
+        r'<verdict>\s*(buggy|correct)\s*<verdict>',
+    ]
+    
+    for pattern in patterns:
+        match = re.search(pattern, response, re.IGNORECASE)
+        if match:
+            verdict = match.group(1).lower()
+            return verdict == "buggy"
+    
+    # Fallback: check if "buggy" appears more prominently in conclusion
+    response_lower = response.lower()
+    
+    buggy_count = response_lower.count("buggy")
+    correct_count = response_lower.count("correct")
+    
+    if buggy_count > correct_count:
+        return True
+    
+    return False
+
+def create_vanilla_prompt(entry):
+    prompt = f"""You are an AI programming assistant. You are an AI programming assistant utilizing the DeepSeek Coder model, developed by DeepSeek Company, and you only answer questions related to computer science. For politically sensitive questions, security and privacy issues, and other non-computer science questions, you will refuse to answer.
+
+### Instruction:
+
+The following is the problem statement and function signature:
+{entry['prompt']}
+
+{entry['buggy_solution']}
+
+Is the above code buggy or correct? Please explain your step by step reasoning. The prediction should be enclosed within <verdict> and </verdict> tags. For example: <verdict>Buggy</verdict>
+
+### Response:"""
+    return prompt
+
+def create_crafted_prompt(entry):
+    prompt = f"""You are an expert Python developer specializing in bug finding.
+Your job is to decide whether the given implementation is BUGGY or CORRECT.
+
+### Specification
+The following is the problem statement and function signature:
+{entry['prompt']}
+
+### Candidate Implementation
+
+{entry['buggy_solution']}
+
+### Instructions
+
+You MUST be skeptical: even if the code looks reasonable, carefully check for subtle mistakes:
+1. Is each usage of literal number or variable correct? 
+2. Is there any operator that is misused?
+3. Is each condition following the logic in specification? Is it forgetting to check certain conditions?
+If any of the above checks fails, you should consider this as buggy.
+
+**Critical**: The prediction should be enclosed within <verdict> and </verdict> tags. For example: <verdict>Buggy</verdict>
+**Critical**: Do not try to fix the implementation. If the implementation is buggy, just output <verdict>Buggy</verdict>.
+
+### Response:"""
+    return prompt
 
 def prompt_model(dataset, model_name = "deepseek-ai/deepseek-coder-6.7b-instruct", vanilla = True):
     print(f"Working with {model_name} prompt type {vanilla}...")
     
     # TODO: download the model
+    tokenizer = AutoTokenizer.from_pretrained(model_name)
     # TODO: load the model with quantization
+    bnb_config = BitsAndBytesConfig(
+        load_in_4bit=True,
+        bnb_4bit_use_double_quant=True,
+        bnb_4bit_quant_type="nf4",
+        bnb_4bit_compute_dtype=torch.bfloat16
+    )
+    model = AutoModelForCausalLM.from_pretrained(
+        model_name,     
+        device_map="auto",
+        torch_dtype=torch.bfloat16,
+        quantization_config=bnb_config
+    )
+
+    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    model.to(device)
+
+    random.seed(4321)
     
     results = []
     for entry in dataset:
@@ -23,19 +110,41 @@ def prompt_model(dataset, model_name = "deepseek-ai/deepseek-coder-6.7b-instruct
         # Tip : Use can use any data from the dataset to create 
         #       the prompt including prompt, canonical_solution, test, etc.
         prompt = ""
+
+        if vanilla:
+            prompt = create_vanilla_prompt(entry)
+        else:
+            prompt = create_crafted_prompt(entry)
         
         # TODO: prompt the model and get the response
-        response = ""
+        inputs = tokenizer(prompt, return_tensors="pt").to(model.device)
+        with torch.no_grad():
+            output_ids = model.generate(
+                **inputs,
+                max_new_tokens=300,
+                do_sample=False,
+                # temperature=0.0, No need when do_sample=False
+            )
+        # Remove the prompt part 
+        gen_ids = output_ids[0][inputs["input_ids"].shape[-1]:]
+        response = tokenizer.decode(gen_ids, skip_special_tokens=True)
 
         # TODO: process the response and save it to results
-        verdict = False
+        predicted_buggy = parse_response(response)
+        expected_buggy = True
+        is_correct = (predicted_buggy == expected_buggy)
 
-        print(f"Task_ID {entry['task_id']}:\nprompt:\n{prompt}\nresponse:\n{response}\nis_expected:\n{verdict}")
+        print(f"\nTask_ID {entry['task_id']}:")
+        print(f"Predicted: {'Buggy' if predicted_buggy else 'Correct'}")
+        print(f"Expected: {'Buggy' if expected_buggy else 'Correct'}")
+        print(f"Is Correct: {is_correct}")
+        print("-" * 80)
+
         results.append({
             "task_id": entry["task_id"],
             "prompt": prompt,
             "response": response,
-            "is_correct": verdict
+            "is_correct": is_correct
         })
         
     return results

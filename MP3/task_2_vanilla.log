@@ -1,0 +1,153 @@
+2025-11-18 16:33:41.828948: I tensorflow/core/util/port.cc:153] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+2025-11-18 16:33:41.845843: E external/local_xla/xla/stream_executor/cuda/cuda_fft.cc:467] Unable to register cuFFT factory: Attempting to register factory for plugin cuFFT when one has already been registered
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+E0000 00:00:1763483621.868400   66796 cuda_dnn.cc:8579] Unable to register cuDNN factory: Attempting to register factory for plugin cuDNN when one has already been registered
+E0000 00:00:1763483621.875315   66796 cuda_blas.cc:1407] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+W0000 00:00:1763483621.892160   66796 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+W0000 00:00:1763483621.892199   66796 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+W0000 00:00:1763483621.892201   66796 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+W0000 00:00:1763483621.892204   66796 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+2025-11-18 16:33:41.897169: I tensorflow/core/platform/cpu_feature_guard.cc:210] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 AVX512F AVX512_VNNI FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+Working with deepseek-ai/deepseek-coder-6.7b-instruct prompt type True...
+Loading checkpoint shards:   0%|          | 0/2 [00:00<?, ?it/s]Loading checkpoint shards:  50%|█████     | 1/2 [00:12<00:12, 12.08s/it]Loading checkpoint shards: 100%|██████████| 2/2 [00:16<00:00,  7.32s/it]Loading checkpoint shards: 100%|██████████| 2/2 [00:16<00:00,  8.04s/it]
+Setting `pad_token_id` to `eos_token_id`:32021 for open-end generation.
+Setting `pad_token_id` to `eos_token_id`:32021 for open-end generation.
+Setting `pad_token_id` to `eos_token_id`:32021 for open-end generation.
+Setting `pad_token_id` to `eos_token_id`:32021 for open-end generation.
+Setting `pad_token_id` to `eos_token_id`:32021 for open-end generation.
+Setting `pad_token_id` to `eos_token_id`:32021 for open-end generation.
+Setting `pad_token_id` to `eos_token_id`:32021 for open-end generation.
+Setting `pad_token_id` to `eos_token_id`:32021 for open-end generation.
+Setting `pad_token_id` to `eos_token_id`:32021 for open-end generation.
+Setting `pad_token_id` to `eos_token_id`:32021 for open-end generation.
+Setting `pad_token_id` to `eos_token_id`:32021 for open-end generation.
+Setting `pad_token_id` to `eos_token_id`:32021 for open-end generation.
+Setting `pad_token_id` to `eos_token_id`:32021 for open-end generation.
+Setting `pad_token_id` to `eos_token_id`:32021 for open-end generation.
+Setting `pad_token_id` to `eos_token_id`:32021 for open-end generation.
+Setting `pad_token_id` to `eos_token_id`:32021 for open-end generation.
+Setting `pad_token_id` to `eos_token_id`:32021 for open-end generation.
+Setting `pad_token_id` to `eos_token_id`:32021 for open-end generation.
+Setting `pad_token_id` to `eos_token_id`:32021 for open-end generation.
+Setting `pad_token_id` to `eos_token_id`:32021 for open-end generation.
+
+Task_ID HumanEval/96:
+Predicted: Correct
+Expected: Buggy
+Is Correct: False
+--------------------------------------------------------------------------------
+
+Task_ID HumanEval/117:
+Predicted: Correct
+Expected: Buggy
+Is Correct: False
+--------------------------------------------------------------------------------
+
+Task_ID HumanEval/85:
+Predicted: Correct
+Expected: Buggy
+Is Correct: False
+--------------------------------------------------------------------------------
+
+Task_ID HumanEval/148:
+Predicted: Correct
+Expected: Buggy
+Is Correct: False
+--------------------------------------------------------------------------------
+
+Task_ID HumanEval/64:
+Predicted: Correct
+Expected: Buggy
+Is Correct: False
+--------------------------------------------------------------------------------
+
+Task_ID HumanEval/149:
+Predicted: Correct
+Expected: Buggy
+Is Correct: False
+--------------------------------------------------------------------------------
+
+Task_ID HumanEval/13:
+Predicted: Correct
+Expected: Buggy
+Is Correct: False
+--------------------------------------------------------------------------------
+
+Task_ID HumanEval/95:
+Predicted: Correct
+Expected: Buggy
+Is Correct: False
+--------------------------------------------------------------------------------
+
+Task_ID HumanEval/126:
+Predicted: Correct
+Expected: Buggy
+Is Correct: False
+--------------------------------------------------------------------------------
+
+Task_ID HumanEval/123:
+Predicted: Correct
+Expected: Buggy
+Is Correct: False
+--------------------------------------------------------------------------------
+
+Task_ID HumanEval/162:
+Predicted: Correct
+Expected: Buggy
+Is Correct: False
+--------------------------------------------------------------------------------
+
+Task_ID HumanEval/41:
+Predicted: Correct
+Expected: Buggy
+Is Correct: False
+--------------------------------------------------------------------------------
+
+Task_ID HumanEval/21:
+Predicted: Correct
+Expected: Buggy
+Is Correct: False
+--------------------------------------------------------------------------------
+
+Task_ID HumanEval/61:
+Predicted: Correct
+Expected: Buggy
+Is Correct: False
+--------------------------------------------------------------------------------
+
+Task_ID HumanEval/97:
+Predicted: Correct
+Expected: Buggy
+Is Correct: False
+--------------------------------------------------------------------------------
+
+Task_ID HumanEval/27:
+Predicted: Correct
+Expected: Buggy
+Is Correct: False
+--------------------------------------------------------------------------------
+
+Task_ID HumanEval/1:
+Predicted: Correct
+Expected: Buggy
+Is Correct: False
+--------------------------------------------------------------------------------
+
+Task_ID HumanEval/68:
+Predicted: Correct
+Expected: Buggy
+Is Correct: False
+--------------------------------------------------------------------------------
+
+Task_ID HumanEval/150:
+Predicted: Buggy
+Expected: Buggy
+Is Correct: True
+--------------------------------------------------------------------------------
+
+Task_ID HumanEval/112:
+Predicted: Correct
+Expected: Buggy
+Is Correct: False
+--------------------------------------------------------------------------------
